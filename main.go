@@ -7,18 +7,29 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/google/uuid"
 	"http_proxy/utils"
+	"fmt"
 )
 
 // Handle client nodes
 type Node struct {
-	UUID	uuid.UUID		`json:"uuid"`
-	Addr	string			`json:"address"`
+	UUID	uuid.UUID			`json:"uuid"`
+	Addr	string				`json:"address"`
 	Clients	map[string]string	`json:"clients"`
+}
+
+// Client address struct
+type clientAddress struct {
+	ipv4	string				'json:"ipv4"`
+}
+
+type clientReturn struct {
+	ipv4	string				`json:"ipv4"`
+	Parent	Node				`json:"parent"`
 }
 
 // Node Holder
 type Management struct {
-	UUID	uuid.UUID		`json:"uuid"`
+	UUID	uuid.UUID			`json:"uuid"`
 	Nodes	map[string]Node		`json:"nodes"`
 }
 
@@ -41,6 +52,23 @@ func landingPage(writer http.ResponseWriter, request *http.Request) {
 
 	// Print for success or error
 	utils.WrapErrorCheck(request, err, "Accessed landing page")
+}
+
+// Forward traffic
+func findClient(goalAddress string) string {
+	// Search for client and return IP address of the node
+	for nodeAddress, node := range globalManager.Nodes {
+		for _, clientAddress := range node.Clients {
+			if clientAddress == goalAddress {
+				return nodeAddress
+			}
+		}
+	}
+}
+
+// Register client
+func registerClient(writer http.ResponseWriter, request *http.Request) {
+	
 }
 
 // Register node
@@ -74,9 +102,11 @@ func main() {
 	// Api access routes
 	router.HandleFunc("/", landingPage).Methods("GET")
 	router.HandleFunc("/register-node", registerNode).Methods("POST")
+	router.HandleFunc("/find-client", findClient).Methods("GET")
 
 	// Open server
 	localIP := utils.GetOutboundIP().String()
 	utils.LogMessage(localIP, "Beginning listening on port 8080 . . .")
 	http.ListenAndServe(":8080", router)
 }
+
