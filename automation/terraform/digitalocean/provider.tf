@@ -8,17 +8,6 @@ terraform {
   }
 }
 
-# Image configuration variables
-variable "droplet_name" {}
-variable "droplet_region" {}
-variable "droplet_size" {}
-
-# Token variables
-variable "do_token" {}
-variable "pvt_key" {}
-variable "project_id" {}
-
-
 # Get digital ocean provider
 provider "digitalocean" {
   token = var.do_token
