@@ -1,0 +1,44 @@
+- name: Install required dependencies
+  package:
+    name:
+      - wget
+      - tar
+    state: present
+
+# Replace with the version that you would like to use for Go.
+# This was built and tested on Go 1.23.2, however, the code is generally non-controversial
+# and I would be surprised by later updates making it defunct.
+- name: Set Go version
+  set_fact:
+    go_version: "1.23.2"
+
+- name: Download Go binary
+  get_url:
+    url: "https://golang.org/dl/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+
+- name: Remove any existing Go installation
+  file:
+    path: /usr/local/go
+    state: absent
+
+- name: Extract Go binary
+  unarchive:
+    src: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: /usr/local
+    remote_src: yes
+
+- name: Set up environment variables for Go
+  lineinfile:
+    path: /etc/profile.d/go.sh
+    line: "{{ item }}"
+    create: yes
+  loop:
+    - 'export GOROOT=/usr/local/go'
+    - 'export GOPATH=$HOME/go'
+    - 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin'
+
+- name: Make the go.sh file executable
+  file:
+    path: /etc/profile.d/go.sh
+    mode: '0755'

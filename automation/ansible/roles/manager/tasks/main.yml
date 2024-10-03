@@ -1,0 +1,20 @@
+---
+- name: Clone manager binary
+  copy:
+    src: "{{ role_path }}/templates/manager"
+    dest: /usr/local/bin/manager
+    mode: '0755'
+
+- name: Clone manager systemd service
+  copy:
+    src: "{{ role_path }}/templates/proxy-manager.service"
+    dest: /etc/systemd/system/proxy-manager.service
+
+- name: Restart systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable manager systemd service
+  systemd:
+    name: proxy-manager
+    enabled: yes

@@ -1,6 +1,7 @@
 # From me
 http_proxy
 **/logs/*
+*.swp
 
 # Terraform/.gitignore
 # Local .terraform directories

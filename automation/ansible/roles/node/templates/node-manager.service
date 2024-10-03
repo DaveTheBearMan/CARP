@@ -1,0 +1,14 @@
+[Unit]
+Description=Node Manager Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/proxynode
+User=root
+Group=root
+Restart=always
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

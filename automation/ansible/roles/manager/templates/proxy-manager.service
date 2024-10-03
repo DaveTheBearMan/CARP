@@ -1,0 +1,14 @@
+[Unit]
+Description=Proxy Manager Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/manager
+User=root
+Group=root
+Restart=always
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
