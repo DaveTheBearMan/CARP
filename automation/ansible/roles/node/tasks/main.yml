@@ -14,7 +14,12 @@
   systemd:
     daemon_reload: yes
 
-- name: Enable manager systemd service
+- name: Enable node systemd service
   systemd:
     name: node-manager
     enabled: yes
+
+- name: Ensure that node systemd is running
+  systemd:
+    name: node-manager
+    state: started

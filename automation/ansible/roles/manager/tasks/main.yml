@@ -18,3 +18,8 @@
   systemd:
     name: proxy-manager
     enabled: yes
+
+- name: Ensure that manager systemd is running
+  systemd:
+    name: proxy-manager
+    state: started

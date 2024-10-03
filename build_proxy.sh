@@ -82,10 +82,11 @@ fi
 
 # Move to ansible directory and run ansible
 cd "${ANSIBLE_DIR}"
-print_status "Run ansible onto manager node" 2
+print_status "Run ansible onto manager instance" 2
 ansible-playbook manager.yml -i inventory.yml -u root
 print_status "Completed ansible manager playbook" 1
 
-print_status "Run ansible playbook onto the nodes" 2
+# Node ansible
+print_status "Run ansible playbook onto the node instances" 2
 ansible-playbook node.yml -i inventory.yml -u root
 print_status "Completed ansible node playbook" 1
