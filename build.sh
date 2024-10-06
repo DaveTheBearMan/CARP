@@ -41,7 +41,7 @@ usage() {
     echo "  -p FILE       Run packer on a target JSON file"
     echo "  -h            Display this help message"
     echo "Arguments:"
-    echo "   deploy-node  Deploys a node first by building the packer image, and then deploying that image with terraform."
+    echo "   deploy-manager  Deploys a manager first by building the packer image, and then deploying that image with terraform."
 }
 
 # Parse options
@@ -202,16 +202,11 @@ if [ "$packer_image" != "" ]; then
     packer build "$packer_image"
 fi
 
-if [ "$1" == "deploy-node" ]; then
+if [ "$1" == "deploy" ]; then
     # Run the terraform required to create node, using the snapshot image provided by preimaging
     cd "${TERRAFORM_DIR}"
     terraform init
-    terraform plan -target=digitalocean_droplet.node_instance -out=node.tfplan
-    if [ $? -eq 0 ] && [ -f "node.tfplan" ]; then
-        print_status "Running terraform" 2
-        terraform apply node.tfplan
-    else
-        print_status "Failed to create Terraform plan." 0
-        exit 1
-    fi
+
+    print_status "Running terraform" 2
+    terraform apply -auto-approve
 fi

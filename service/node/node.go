@@ -2,14 +2,20 @@ package main
 
 // Utilizing gorilla mux for routers for the REST Api
 import (
+	// JSON encoding and utils
 	"encoding/json"
 	"http_proxy/types"
 	"http_proxy/utils"
-	"net/http"
 
+	// Network based
+	"net/http"
+	"fmt"
+
+	// Go packages
 	"strconv"
 	"strings"
 
+	// Github packages
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
@@ -46,21 +52,14 @@ func registerClient(writer http.ResponseWriter, request *http.Request) {
 	// Create a new node instance
 	var client types.Client
 
-	// Catch and return any errors over HTTP
-	err := json.NewDecoder(request.Body).Decode(&client)
-	utils.WrapErrorCheck(request, err, "Successfully registered new client")
-	if err != nil {
-		http.Error(writer, "Invalid input data", http.StatusBadRequest)
-		return
-	}
-
 	// Split address into IP and port.
 	addressPortCombo := strings.Split(request.RemoteAddr, ":")
+	print(request.RemoteAddr)
 	port, portErr := strconv.Atoi(addressPortCombo[1])
 
 	// Check and see if we correctly recieved a port to communicate across
 	if portErr != nil {
-		utils.WrapErrorCheck(request, err, "Unable to translate port to integer")
+		utils.WrapErrorCheck(request, portErr, "Unable to translate port to integer")
 		http.Error(writer, "Unable to translate port from address to integer", http.StatusInternalServerError)
 		return
 	}
@@ -73,6 +72,9 @@ func registerClient(writer http.ResponseWriter, request *http.Request) {
 
 	// Update nodes client table
 	node.Clients[client.Address.Ipv4] = client
+
+    // Write to the manager node
+
 
 	// Write back the newly registered node
 	writer.Header().Set("Content-Type", "application/json")

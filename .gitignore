@@ -69,3 +69,6 @@ go.work.sum
 
 # env file
 .env
+
+# Make it so we dont transfer keys to the github on accident
+*.asc
