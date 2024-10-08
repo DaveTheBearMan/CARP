@@ -1,0 +1,347 @@
+[1;32mdigitalocean.node: output will be in this color.[0m
+
+[1;32m==> digitalocean.node: Creating temporary RSA SSH key for instance...[0m
+[1;32m==> digitalocean.node: Importing SSH public key...[0m
+[1;32m==> digitalocean.node: Creating droplet...[0m
+[1;32m==> digitalocean.node: Waiting for droplet to become active...[0m
+[1;32m==> digitalocean.node: Using SSH communicator to connect: 143.198.162.254[0m
+[1;32m==> digitalocean.node: Waiting for SSH to become available...[0m
+[1;32m==> digitalocean.node: Connected to SSH![0m
+[1;32m==> digitalocean.node: Provisioning with shell script: scripts/ansible.sh[0m
+[1;31m==> digitalocean.node: + export DEBIAN_FRONTEND=noninteractive[0m
+[1;31m==> digitalocean.node: + DEBIAN_FRONTEND=noninteractive[0m
+[1;31m==> digitalocean.node: + apt-get -o DPkg::Lock::Timeout=900 update -y[0m
+[0;32m    digitalocean.node: Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease[0m
+[0;32m    digitalocean.node: Get:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB][0m
+[0;32m    digitalocean.node: Get:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB][0m
+[0;32m    digitalocean.node: Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [539 kB][0m
+[0;32m    digitalocean.node: Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main Translation-en [132 kB][0m
+[0;32m    digitalocean.node: Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 c-n-f Metadata [8860 B][0m
+[0;32m    digitalocean.node: Get:7 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [385 kB][0m
+[0;32m    digitalocean.node: Get:8 http://archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [160 kB][0m
+[0;32m    digitalocean.node: Get:9 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 c-n-f Metadata [14.9 kB][0m
+[0;32m    digitalocean.node: Get:10 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [353 kB][0m
+[0;32m    digitalocean.node: Get:11 http://archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [68.1 kB][0m
+[0;32m    digitalocean.node: Get:12 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 c-n-f Metadata [424 B][0m
+[0;32m    digitalocean.node: Get:13 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [14.4 kB][0m
+[0;32m    digitalocean.node: Get:14 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 c-n-f Metadata [532 B][0m
+[0;32m    digitalocean.node: Get:15 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [10.6 kB][0m
+[0;32m    digitalocean.node: Get:16 http://archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [10.8 kB][0m
+[0;32m    digitalocean.node: Get:17 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 c-n-f Metadata [1104 B][0m
+[0;32m    digitalocean.node: Get:18 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB][0m
+[0;32m    digitalocean.node: Get:19 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [382 kB][0m
+[0;32m    digitalocean.node: Get:20 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [84.0 kB][0m
+[0;32m    digitalocean.node: Get:21 http://security.ubuntu.com/ubuntu noble-security/main amd64 c-n-f Metadata [4704 B][0m
+[0;32m    digitalocean.node: Get:22 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [277 kB][0m
+[0;32m    digitalocean.node: Get:23 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [117 kB][0m
+[0;32m    digitalocean.node: Get:24 http://security.ubuntu.com/ubuntu noble-security/universe amd64 c-n-f Metadata [10.4 kB][0m
+[0;32m    digitalocean.node: Get:25 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [353 kB][0m
+[0;32m    digitalocean.node: Get:26 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [68.1 kB][0m
+[0;32m    digitalocean.node: Get:27 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 c-n-f Metadata [428 B][0m
+[0;32m    digitalocean.node: Get:28 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [10.9 kB][0m
+[0;32m    digitalocean.node: Get:29 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 c-n-f Metadata [344 B][0m
+[0;32m    digitalocean.node: Fetched 3384 kB in 9s (376 kB/s)[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[1;31m==> digitalocean.node: + sleep 4[0m
+[1;31m==> digitalocean.node: + apt-get -o DPkg::Lock::Timeout=900 install -y software-properties-common[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[0;32m    digitalocean.node: Building dependency tree...[0m
+[0;32m    digitalocean.node: Reading state information...[0m
+[0;32m    digitalocean.node: software-properties-common is already the newest version (0.99.48).[0m
+[0;32m    digitalocean.node: software-properties-common set to manually installed.[0m
+[0;32m    digitalocean.node: 0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.[0m
+[1;31m==> digitalocean.node: + sleep 4[0m
+[1;31m==> digitalocean.node: + add-apt-repository --yes --update ppa:ansible/ansible[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[1;31m==> digitalocean.node: E: Could not get lock /var/lib/apt/lists/lock. It is held by process 1624 (apt-get)[0m
+[1;31m==> digitalocean.node: E: Unable to lock directory /var/lib/apt/lists/[0m
+[0;32m    digitalocean.node: Repository: 'Types: deb[0m
+[0;32m    digitalocean.node: URIs: https://ppa.launchpadcontent.net/ansible/ansible/ubuntu/[0m
+[0;32m    digitalocean.node: Suites: noble[0m
+[0;32m    digitalocean.node: Components: main[0m
+[0;32m    digitalocean.node: '[0m
+[0;32m    digitalocean.node: Description:[0m
+[0;32m    digitalocean.node: Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy. Avoid writing scripts or custom code to deploy and update your applications— automate in a language that approaches plain English, using SSH, with no agents to install on remote systems.[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: http://ansible.com/[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: If you face any issues while installing Ansible PPA, file an issue here:[0m
+[0;32m    digitalocean.node: https://github.com/ansible-community/ppa/issues[0m
+[0;32m    digitalocean.node: More info: https://launchpad.net/~ansible/+archive/ubuntu/ansible[0m
+[0;32m    digitalocean.node: Adding repository.[0m
+[1;31m==> digitalocean.node: + sleep 4[0m
+[1;31m==> digitalocean.node: + apt-get -o DPkg::Lock::Timeout=300 install -y ansible[0m
+[0;32m    digitalocean.node: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1610 (apt-get)...[0m
+[0;32m    digitalocean.node: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1610 (apt-get)...[0m
+[0;32m    digitalocean.node: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1610 (apt-get)...[0m
+[0;32m    digitalocean.node: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1610 (apt-get)...[0m
+[0;32m    digitalocean.node: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1610 (apt-get)...[0m
+[0;32m    digitalocean.node: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1610 (apt-get)...[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[0;32m    digitalocean.node: Building dependency tree...[0m
+[0;32m    digitalocean.node: Reading state information...[0m
+[0;32m    digitalocean.node: The following additional packages will be installed:[0m
+[0;32m    digitalocean.node:   ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
+[0;32m    digitalocean.node:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
+[0;32m    digitalocean.node:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
+[0;32m    digitalocean.node:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
+[0;32m    digitalocean.node: Suggested packages:[0m
+[0;32m    digitalocean.node:   cowsay sshpass python3-trio python3-aioquic python3-h2 python3-httpx[0m
+[0;32m    digitalocean.node:   python3-httpcore python-lockfile-doc[0m
+[0;32m    digitalocean.node: The following NEW packages will be installed:[0m
+[0;32m    digitalocean.node:   ansible ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
+[0;32m    digitalocean.node:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
+[0;32m    digitalocean.node:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
+[0;32m    digitalocean.node:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
+[0;32m    digitalocean.node: 0 upgraded, 17 newly installed, 0 to remove and 160 not upgraded.[0m
+[0;32m    digitalocean.node: Need to get 19.6 MB of archives.[0m
+[0;32m    digitalocean.node: After this operation, 315 MB of additional disk space will be used.[0m
+[0;32m    digitalocean.node: Get:1 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-packaging all 24.0-1 [41.1 kB][0m
+[0;32m    digitalocean.node: Get:2 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-resolvelib all 1.0.1-1 [25.7 kB][0m
+[0;32m    digitalocean.node: Get:3 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-dnspython all 2.6.1-1ubuntu1 [163 kB][0m
+[0;32m    digitalocean.node: Get:4 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 ansible-core all 2.16.3-0ubuntu2 [1280 kB][0m
+[0;32m    digitalocean.node: Get:5 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 ansible all 9.2.0+dfsg-0ubuntu5 [16.4 MB][0m
+[0;32m    digitalocean.node: Get:6 http://mirrors.digitalocean.com/ubuntu noble-updates/universe amd64 python3-argcomplete all 3.1.4-1ubuntu0.1 [33.8 kB][0m
+[0;32m    digitalocean.node: Get:7 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-jmespath all 1.0.1-1 [21.3 kB][0m
+[0;32m    digitalocean.node: Get:8 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-kerberos amd64 1.1.14-3.1build9 [21.2 kB][0m
+[0;32m    digitalocean.node: Get:9 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-lockfile all 1:0.12.2-3 [13.7 kB][0m
+[0;32m    digitalocean.node: Get:10 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-simplejson amd64 3.19.2-1build2 [54.5 kB][0m
+[0;32m    digitalocean.node: Get:11 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-libcloud all 3.4.1-5 [751 kB][0m
+[0;32m    digitalocean.node: Get:12 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-ntlm-auth all 1.5.0-1 [21.3 kB][0m
+[0;32m    digitalocean.node: Get:13 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-requests-ntlm all 1.1.0-3 [6308 B][0m
+[0;32m    digitalocean.node: Get:14 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-selinux amd64 3.5-2ubuntu2 [165 kB][0m
+[0;32m    digitalocean.node: Get:15 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-xmltodict all 0.13.0-1 [13.4 kB][0m
+[0;32m    digitalocean.node: Get:16 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-winrm all 0.4.3-2 [31.9 kB][0m
+[0;32m    digitalocean.node: Get:17 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-passlib all 1.7.4-4 [476 kB][0m
+[0;32m    digitalocean.node: Fetched 19.6 MB in 1s (25.3 MB/s)[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-packaging.[0m
+[0;32m    digitalocean.node: (Reading database ... 71891 files and directories currently installed.)[0m
+[0;32m    digitalocean.node: Preparing to unpack .../00-python3-packaging_24.0-1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-packaging (24.0-1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-resolvelib.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../01-python3-resolvelib_1.0.1-1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-resolvelib (1.0.1-1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-dnspython.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../02-python3-dnspython_2.6.1-1ubuntu1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-dnspython (2.6.1-1ubuntu1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package ansible-core.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../03-ansible-core_2.16.3-0ubuntu2_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking ansible-core (2.16.3-0ubuntu2) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package ansible.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../04-ansible_9.2.0+dfsg-0ubuntu5_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking ansible (9.2.0+dfsg-0ubuntu5) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-argcomplete.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../05-python3-argcomplete_3.1.4-1ubuntu0.1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-argcomplete (3.1.4-1ubuntu0.1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-jmespath.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../06-python3-jmespath_1.0.1-1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-jmespath (1.0.1-1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-kerberos.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../07-python3-kerberos_1.1.14-3.1build9_amd64.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-kerberos (1.1.14-3.1build9) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-lockfile.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../08-python3-lockfile_1%3a0.12.2-3_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-lockfile (1:0.12.2-3) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-simplejson.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../09-python3-simplejson_3.19.2-1build2_amd64.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-simplejson (3.19.2-1build2) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-libcloud.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../10-python3-libcloud_3.4.1-5_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-libcloud (3.4.1-5) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-ntlm-auth.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../11-python3-ntlm-auth_1.5.0-1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-ntlm-auth (1.5.0-1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-requests-ntlm.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../12-python3-requests-ntlm_1.1.0-3_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-requests-ntlm (1.1.0-3) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-selinux.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../13-python3-selinux_3.5-2ubuntu2_amd64.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-selinux (3.5-2ubuntu2) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-xmltodict.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../14-python3-xmltodict_0.13.0-1_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-xmltodict (0.13.0-1) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-winrm.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../15-python3-winrm_0.4.3-2_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-winrm (0.4.3-2) ...[0m
+[0;32m    digitalocean.node: Selecting previously unselected package python3-passlib.[0m
+[0;32m    digitalocean.node: Preparing to unpack .../16-python3-passlib_1.7.4-4_all.deb ...[0m
+[0;32m    digitalocean.node: Unpacking python3-passlib (1.7.4-4) ...[0m
+[0;32m    digitalocean.node: Setting up python3-lockfile (1:0.12.2-3) ...[0m
+[0;32m    digitalocean.node: Setting up python3-passlib (1.7.4-4) ...[0m
+[0;32m    digitalocean.node: Setting up python3-ntlm-auth (1.5.0-1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-resolvelib (1.0.1-1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-kerberos (1.1.14-3.1build9) ...[0m
+[0;32m    digitalocean.node: Setting up python3-simplejson (3.19.2-1build2) ...[0m
+[0;32m    digitalocean.node: Setting up python3-xmltodict (0.13.0-1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-packaging (24.0-1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-jmespath (1.0.1-1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-dnspython (2.6.1-1ubuntu1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-selinux (3.5-2ubuntu2) ...[0m
+[0;32m    digitalocean.node: Setting up python3-argcomplete (3.1.4-1ubuntu0.1) ...[0m
+[0;32m    digitalocean.node: Setting up python3-requests-ntlm (1.1.0-3) ...[0m
+[0;32m    digitalocean.node: Setting up ansible-core (2.16.3-0ubuntu2) ...[0m
+[0;32m    digitalocean.node: Setting up python3-libcloud (3.4.1-5) ...[0m
+[0;32m    digitalocean.node: Setting up python3-winrm (0.4.3-2) ...[0m
+[0;32m    digitalocean.node: Setting up ansible (9.2.0+dfsg-0ubuntu5) ...[0m
+[0;32m    digitalocean.node: Processing triggers for man-db (2.12.0-4build2) ...[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: Running kernel seems to be up-to-date.[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: No services need to be restarted.[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: No containers need to be restarted.[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: No user sessions are running outdated binaries.[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: No VM guests are running outdated hypervisor (qemu) binaries on this host.[0m
+[1;31m==> digitalocean.node: + sleep 4[0m
+[1;32m==> digitalocean.node: Uploading keys/private_key.asc => /[0m
+[0;32m    digitalocean.node: private_key.asc[0m 751 B / 751 B [================================================] 100.00% 0s
+[1A[0;32m    digitalocean.node: private_key.asc[0m 751 B / 751 B [================================================] 100.00% 0s
+[1;32m==> digitalocean.node: Provisioning with Ansible...[0m
+[0;32m    digitalocean.node: Creating Ansible staging directory...[0m
+[0;32m    digitalocean.node: Creating directory: /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa[0m
+[0;32m    digitalocean.node: Uploading main Playbook file...[0m
+[0;32m    digitalocean.node: Uploading inventory file...[0m
+[0;32m    digitalocean.node: Uploading group_vars directory...[0m
+[0;32m    digitalocean.node: Creating directory: /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa/group_vars[0m
+[0;32m    digitalocean.node: Uploading role directories...[0m
+[0;32m    digitalocean.node: Creating directory: /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa/roles/golang[0m
+[0;32m    digitalocean.node: Creating directory: /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa/roles/node[0m
+[0;32m    digitalocean.node: Executing Ansible: cd /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa &&  ANSIBLE_FORCE_COLOR=1 PYTHONUNBUFFERED=1 ansible-playbook /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa/node.yml --extra-vars "packer_build_name=node packer_builder_type=digitalocean packer_http_addr=ERR_HTTP_ADDR_NOT_IMPLEMENTED_BY_BUILDER -o IdentitiesOnly=yes"  -c local -i /tmp/packer-provisioner-ansible-local/670584f5-39c1-2db1-c06b-7f0071720faa/packer-provisioner-ansible-local1505992873[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: PLAY [Install Node Service on Nodes] *******************************************[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [Gathering Facts] *********************************************************[0m
+[0;32m    digitalocean.node: [0;32mok: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Install required dependencies] **********************************[0m
+[0;32m    digitalocean.node: [0;32mok: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Set Go version] *************************************************[0m
+[0;32m    digitalocean.node: [0;32mok: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Download Go binary] *********************************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Remove any existing Go installation] ****************************[0m
+[0;32m    digitalocean.node: [0;32mok: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Extract Go binary] **********************************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Set up environment variables for Go] ****************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1] => (item=export GOROOT=/usr/local/go)[0m[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1] => (item=export GOPATH=$HOME/go)[0m[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1] => (item=export PATH=$PATH:$GOROOT/bin:$GOPATH/bin)[0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [golang : Make the go.sh file executable] *********************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [node : Clone node binary] ************************************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [node : Clone node systemd service] ***************************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [node : Restart systemd] **************************************************[0m
+[0;32m    digitalocean.node: [0;32mok: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [node : Enable node systemd service] **************************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: TASK [node : Ensure that node systemd is running] ******************************[0m
+[0;32m    digitalocean.node: [0;33mchanged: [127.0.0.1][0m[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: PLAY RECAP *********************************************************************[0m
+[0;32m    digitalocean.node: [0;33m127.0.0.1[0m                  : [0;32mok=13  [0m [0;33mchanged=8   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0[0m
+[0;32m    digitalocean.node:[0m
+[1;32m==> digitalocean.node: Provisioning with shell script: scripts/cleanup.sh[0m
+[1;31m==> digitalocean.node: + apt-get -o DPkg::Lock::Timeout=900 remove --purge ansible -y[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[0;32m    digitalocean.node: Building dependency tree...[0m
+[0;32m    digitalocean.node: Reading state information...[0m
+[0;32m    digitalocean.node: The following packages were automatically installed and are no longer required:[0m
+[0;32m    digitalocean.node:   ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
+[0;32m    digitalocean.node:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
+[0;32m    digitalocean.node:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
+[0;32m    digitalocean.node:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
+[0;32m    digitalocean.node: Use 'apt autoremove' to remove them.[0m
+[0;32m    digitalocean.node: The following packages will be REMOVED:[0m
+[0;32m    digitalocean.node:   ansible*[0m
+[0;32m    digitalocean.node: 0 upgraded, 0 newly installed, 1 to remove and 160 not upgraded.[0m
+[0;32m    digitalocean.node: After this operation, 294 MB disk space will be freed.[0m
+[0;32m    digitalocean.node: (Reading database ... 94996 files and directories currently installed.)[0m
+[0;32m    digitalocean.node: Removing ansible (9.2.0+dfsg-0ubuntu5) ...[0m
+[0;32m    digitalocean.node: Processing triggers for man-db (2.12.0-4build2) ...[0m
+[0;32m    digitalocean.node: (Reading database ... 73976 files and directories currently installed.)[0m
+[0;32m    digitalocean.node: Purging configuration files for ansible (9.2.0+dfsg-0ubuntu5) ...[0m
+[1;31m==> digitalocean.node: + apt-add-repository --remove ppa:ansible/ansible[0m
+[0;32m    digitalocean.node: Hit:1 http://mirrors.digitalocean.com/ubuntu noble InRelease[0m
+[0;32m    digitalocean.node: Hit:2 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease[0m
+[0;32m    digitalocean.node: Hit:3 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease[0m
+[0;32m    digitalocean.node: Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease[0m
+[0;32m    digitalocean.node: Hit:5 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[0;32m    digitalocean.node: Repository: 'Types: deb[0m
+[0;32m    digitalocean.node: URIs: https://ppa.launchpadcontent.net/ansible/ansible/ubuntu/[0m
+[0;32m    digitalocean.node: Suites: noble[0m
+[0;32m    digitalocean.node: Components: main[0m
+[0;32m    digitalocean.node: '[0m
+[0;32m    digitalocean.node: Description:[0m
+[0;32m    digitalocean.node: Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy. Avoid writing scripts or custom code to deploy and update your applications— automate in a language that approaches plain English, using SSH, with no agents to install on remote systems.[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: http://ansible.com/[0m
+[0;32m    digitalocean.node:[0m
+[0;32m    digitalocean.node: If you face any issues while installing Ansible PPA, file an issue here:[0m
+[0;32m    digitalocean.node: https://github.com/ansible-community/ppa/issues[0m
+[0;32m    digitalocean.node: More info: https://launchpad.net/~ansible/+archive/ubuntu/ansible[0m
+[0;32m    digitalocean.node: Removing repository.[0m
+[0;32m    digitalocean.node: Removing entry from /etc/apt/sources.list.d/ansible-ubuntu-ansible-noble.sources[0m
+[1;31m==> digitalocean.node: + apt-get -o DPkg::Lock::Timeout=900 autoremove -y[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[0;32m    digitalocean.node: Building dependency tree...[0m
+[0;32m    digitalocean.node: Reading state information...[0m
+[0;32m    digitalocean.node: The following packages will be REMOVED:[0m
+[0;32m    digitalocean.node:   ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
+[0;32m    digitalocean.node:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
+[0;32m    digitalocean.node:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
+[0;32m    digitalocean.node:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
+[0;32m    digitalocean.node: 0 upgraded, 0 newly installed, 16 to remove and 160 not upgraded.[0m
+[0;32m    digitalocean.node: After this operation, 21.3 MB disk space will be freed.[0m
+[0;32m    digitalocean.node: (Reading database ... 73976 files and directories currently installed.)[0m
+[0;32m    digitalocean.node: Removing ansible-core (2.16.3-0ubuntu2) ...[0m
+[0;32m    digitalocean.node: Removing python3-argcomplete (3.1.4-1ubuntu0.1) ...[0m
+[0;32m    digitalocean.node: Removing python3-dnspython (2.6.1-1ubuntu1) ...[0m
+[0;32m    digitalocean.node: Removing python3-jmespath (1.0.1-1) ...[0m
+[0;32m    digitalocean.node: Removing python3-kerberos (1.1.14-3.1build9) ...[0m
+[0;32m    digitalocean.node: Removing python3-libcloud (3.4.1-5) ...[0m
+[0;32m    digitalocean.node: Removing python3-lockfile (1:0.12.2-3) ...[0m
+[0;32m    digitalocean.node: Removing python3-winrm (0.4.3-2) ...[0m
+[0;32m    digitalocean.node: Removing python3-requests-ntlm (1.1.0-3) ...[0m
+[0;32m    digitalocean.node: Removing python3-ntlm-auth (1.5.0-1) ...[0m
+[0;32m    digitalocean.node: Removing python3-packaging (24.0-1) ...[0m
+[0;32m    digitalocean.node: Removing python3-passlib (1.7.4-4) ...[0m
+[0;32m    digitalocean.node: Removing python3-resolvelib (1.0.1-1) ...[0m
+[0;32m    digitalocean.node: Removing python3-selinux (3.5-2ubuntu2) ...[0m
+[0;32m    digitalocean.node: Removing python3-simplejson (3.19.2-1build2) ...[0m
+[0;32m    digitalocean.node: Removing python3-xmltodict (0.13.0-1) ...[0m
+[0;32m    digitalocean.node: Processing triggers for man-db (2.12.0-4build2) ...[0m
+[1;31m==> digitalocean.node: + apt-get -o DPkg::Lock::Timeout=900 update -y[0m
+[0;32m    digitalocean.node: Hit:1 http://mirrors.digitalocean.com/ubuntu noble InRelease[0m
+[0;32m    digitalocean.node: Hit:2 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease[0m
+[0;32m    digitalocean.node: Hit:3 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease[0m
+[0;32m    digitalocean.node: Hit:4 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease[0m
+[0;32m    digitalocean.node: Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease[0m
+[0;32m    digitalocean.node: Reading package lists...[0m
+[1;32m==> digitalocean.node: Gracefully shutting down droplet...[0m
+[1;32m==> digitalocean.node: Creating snapshot: packer-1728414830[0m
+[1;32m==> digitalocean.node: Waiting for snapshot to complete...[0m
+[1;32m==> digitalocean.node: Destroying droplet...[0m
+[1;32m==> digitalocean.node: Deleting temporary ssh key...[0m
+[1;32mBuild 'digitalocean.node' finished after 4 minutes 3 seconds.[0m
+
+==> Wait completed after 4 minutes 3 seconds
+
+==> Builds finished. The artifacts of successful builds are:
+--> digitalocean.node: A snapshot was created: 'packer-1728414830' (ID: 167308560) in regions 'nyc1'

@@ -1,7 +1,7 @@
 #!/bin/bash
 # This file is to build all of the go images before utilizing ansible scripts to make sure the most up to date build is provided.
 # First, we need to make sure we are in the correct directory
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+SCRIPT_DIR="$(find ~ -type d -name "CloudFlareway")"
 
 # Define all of the directories for accessing Go builds
 SERVICE_DIR="${SCRIPT_DIR}/service/"
@@ -11,6 +11,9 @@ NODE_DIR="${SERVICE_DIR}/node/"
 
 # Directory for terraform
 TERRAFORM_DIR="${SCRIPT_DIR}/automation/terraform/digitalocean"
+
+# Directory for snapshots
+SNAPSHOT_DIR="${SCRIPT_DIR}/snapshot_ids"
 
 # Directory for packer builds
 PACKER_DIR="${SCRIPT_DIR}/automation/packer"
@@ -32,16 +35,17 @@ packer_image=""
 usage() {
     echo "Usage: $0 [-v] [-o output_file] [-b] [-d] [-c] [-p target_json_file] [-h] argument"
     echo "Options:"
-    echo "  -v            Enable verbose mode"
-    echo "  -o FILE       Specify output file"
-    echo "  -b            Rebuild Go package"
-    echo "  -d            Destroy terraform environment"
-    echo "  -c            Clean packer snapshots"
-    echo "  -C            Clean entire workspace including terraform environment"
-    echo "  -p FILE       Run packer on a target JSON file"
-    echo "  -h            Display this help message"
+    echo "  -v                                  Enable verbose mode"
+    echo "  -o FILE                             Specify output file"
+    echo "  -b                                  Rebuild Go package"
+    echo "  -d                                  Destroy terraform environment"
+    echo "  -c                                  Clean packer snapshots"
+    echo "  -C                                  Clean entire workspace including terraform environment"
+    echo "  -p FILE                             Run packer on a target JSON file"
+    echo "  -h                                  Display this help message"
     echo "Arguments:"
-    echo "   deploy-manager  Deploys a manager first by building the packer image, and then deploying that image with terraform."
+    echo "   deploy                             Deploys current terraform configuration"
+    echo "   rebuild <proxy/manager> <index>    Rebuilds a specified node"
 }
 
 # Parse options
@@ -80,6 +84,7 @@ done
 shift $((OPTIND - 1))
 
 # Update source so we can access our environment variables
+cd "${SCRIPT_DIR}"
 source .env
 
 # Function to print status messages in green or red
@@ -162,6 +167,11 @@ if [ "$clean_snapshots" == true ]; then
         fi
     done
 
+    # Remove snapshot ids and make new directory for storing them
+    cd "${SCRIPT_DIR}"
+    rm -rf "${SNAPSHOT_DIR}"
+    mkdir -p "${SNAPSHOT_DIR}"
+
     print_status "Snapshots cleaned" 1
 fi
 
@@ -198,8 +208,20 @@ fi
 # Options for this script
 # Preimage: Create the packer image required for running terraform for the node
 if [ "$packer_image" != "" ]; then
+    # Build the packer image
     cd "${PACKER_DIR}"
-    packer build "$packer_image"
+    packer build "${packer_image}.pkr.hcl" | tee build_temp.txt
+
+    # First get the line with the snapshot ID. #9 is the position of the snapshot id currently (ID: ######)
+    snapshot_id=$(cat build_temp.txt | grep "A snapshot was created" | awk '{print $9}' | sed 's/.$//')
+    # Get the first word from file path (ex: node.pkr.hcl -> node)
+    snapshot_type=$(echo $packer_image | sed 's/\..*//')
+    #rm build_temp.txt
+
+    # Put most recent image onto the top of the snapshot file
+    cd "${SNAPSHOT_DIR}"
+    touch "${snapshot_type}.txt" # Ensure file exists
+    echo -e "${snapshot_id}\n$(cat "${snapshot_type}.txt")" >> "${snapshot_type}.txt"
 fi
 
 if [ "$1" == "deploy" ]; then
@@ -208,5 +230,38 @@ if [ "$1" == "deploy" ]; then
     terraform init
 
     print_status "Running terraform" 2
-    terraform apply -auto-approve
+    terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+elif [ "$1" == "rebuild" ]; then
+    # Run the terraform required to create node, using the snapshot image provided by preimaging
+    cd "${TERRAFORM_DIR}"
+
+    print_status "Tearing image down" 2
+    if [ "$2" == "proxy" ]; then
+        if [[ $3 =~ ^-?[0-9]+$ ]]; then # Check if its an integer
+            # Match to get proxy node we're removing then building
+            pattern="proxy-${3}"
+            print_status "Removing ${pattern}" 2
+            sleep 2
+
+            # # Node/Manager
+            # node_dropet_image_id=$(terraform state show 'digitalocean_droplet.node_instance[\"${pattern}\"]' | grep 'image' | head -n 1 | sed 's/.*= "\([0-9]*\)"/\1/'})
+            # manager_dropet_image_id=$(terraform state show 'digitalocean_droplet.manager_instance[\"${pattern}\"]' | grep 'image' | head -n 1 | sed 's/.*= "\([0-9]*\)"/\1/'})
+
+            # Stop creating the instance
+            sed -i s/"\"${pattern}\" = { create = true }"/"\"${pattern}\" = { create = false }"/ variables.tf
+
+            print_status "Running terraform to bring node down" 2
+            terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+
+            # Create the instance
+            sed -i s/"\"${pattern}\" = { create = false }"/"\"${pattern}\" = { create = true }"/ variables.tf
+
+            print_status "Running terraform to bring node up" 2
+            terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+        fi
+    elif [ "$2" == "manager" ]; then
+        echo "Create manager"
+    else
+        echo "Invalid argument"
+    fi
 fi
