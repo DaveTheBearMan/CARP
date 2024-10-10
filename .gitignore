@@ -72,3 +72,6 @@ go.work.sum
 
 # Make it so we dont transfer keys to the github on accident
 *.asc
+
+# Snapshot ids while not private are unnessecary in the repository
+snapshot_ids/
