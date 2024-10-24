@@ -9,7 +9,6 @@ import (
 
 	// Network based
 	"net/http"
-	"fmt"
 
 	// Go packages
 	"strconv"
@@ -73,8 +72,7 @@ func registerClient(writer http.ResponseWriter, request *http.Request) {
 	// Update nodes client table
 	node.Clients[client.Address.Ipv4] = client
 
-    // Write to the manager node
-
+	// Write to the manager node
 
 	// Write back the newly registered node
 	writer.Header().Set("Content-Type", "application/json")

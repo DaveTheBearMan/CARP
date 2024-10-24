@@ -46,6 +46,7 @@ usage() {
     echo "Arguments:"
     echo "   deploy                             Deploys current terraform configuration"
     echo "   rebuild <proxy/manager> <index>    Rebuilds a specified node"
+    echo "   build                              Builds the entire proxy manager, destructively."
 }
 
 # Parse options
@@ -210,7 +211,9 @@ fi
 if [ "$packer_image" != "" ]; then
     # Build the packer image
     cd "${PACKER_DIR}"
+    print_status "Beginning packer build!" 2
     packer build "${packer_image}.pkr.hcl" | tee build_temp.txt
+    print_status "Packer build successful." 1
 
     # First get the line with the snapshot ID. #9 is the position of the snapshot id currently (ID: ######)
     snapshot_id=$(cat build_temp.txt | grep "A snapshot was created" | awk '{print $9}' | sed 's/.$//')
@@ -219,9 +222,10 @@ if [ "$packer_image" != "" ]; then
     #rm build_temp.txt
 
     # Put most recent image onto the top of the snapshot file
+    print_status "Writing snapshot id to file." 2
     cd "${SNAPSHOT_DIR}"
     touch "${snapshot_type}.txt" # Ensure file exists
-    echo -e "${snapshot_id}\n$(cat "${snapshot_type}.txt")" >> "${snapshot_type}.txt"
+    echo -e "${snapshot_id}\n$(cat "${snapshot_type}.txt")" > "${snapshot_type}.txt"
 fi
 
 if [ "$1" == "deploy" ]; then
@@ -231,6 +235,9 @@ if [ "$1" == "deploy" ]; then
 
     print_status "Running terraform" 2
     terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+
+    terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
+
 elif [ "$1" == "rebuild" ]; then
     # Run the terraform required to create node, using the snapshot image provided by preimaging
     cd "${TERRAFORM_DIR}"
@@ -242,10 +249,6 @@ elif [ "$1" == "rebuild" ]; then
             pattern="proxy-${3}"
             print_status "Removing ${pattern}" 2
             sleep 2
-
-            # # Node/Manager
-            # node_dropet_image_id=$(terraform state show 'digitalocean_droplet.node_instance[\"${pattern}\"]' | grep 'image' | head -n 1 | sed 's/.*= "\([0-9]*\)"/\1/'})
-            # manager_dropet_image_id=$(terraform state show 'digitalocean_droplet.manager_instance[\"${pattern}\"]' | grep 'image' | head -n 1 | sed 's/.*= "\([0-9]*\)"/\1/'})
 
             # Stop creating the instance
             sed -i s/"\"${pattern}\" = { create = true }"/"\"${pattern}\" = { create = false }"/ variables.tf
@@ -263,5 +266,25 @@ elif [ "$1" == "rebuild" ]; then
         echo "Create manager"
     else
         echo "Invalid argument"
+    fi
+elif [ "$1" == "build" ]; then
+    clear
+    if [ "$2" == "in-place" ]; then
+        echo "Not implemented"
+    else
+        while true; do
+            read -p "Are you sure? This will rebuild the entire proxy-manager service. [y/n] " yn
+            case $yn in
+                [Yy]* ) print_status "Building proxy-manager" 2; break;;
+                [Nn]* ) exit;;
+                * ) echo "Please answer yes or no.";;
+            esac
+        done
+        
+        proxy-manager -v -C
+        proxy-manager -v -b
+        proxy-manager -v -p node
+        proxy-manager -v -p manager
+        proxy-manager -v deploy  
     fi
 fi

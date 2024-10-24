@@ -8,16 +8,16 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Update package lists and upgrade existing packages.
 apt-get -o DPkg::Lock::Timeout=900 update -y
-sleep 4
+sleep 2
 
 # Install prerequisites for adding repositories.
 apt-get -o DPkg::Lock::Timeout=900 install -y software-properties-common
-sleep 4
+sleep 2
 
 # Add the Ansible repository.
 add-apt-repository --yes --update ppa:ansible/ansible
-sleep 4
+sleep 2
 
 # Install Ansible.
 apt-get -o DPkg::Lock::Timeout=300 install -y ansible
-sleep 4
+sleep 2
