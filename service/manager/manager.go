@@ -1,92 +1,111 @@
 package main
 
-// Utilizing gorilla mux for routers for the REST Api
 import (
-	"encoding/json"
-	"http_proxy/types"
-	"http_proxy/utils"
+	"bufio"
+	"fmt"
+	"log"
+	"net"
 	"net/http"
+	"os"
+	"strings"
 
-	"github.com/google/uuid"
-	"github.com/gorilla/mux"
+	"github.com/gorilla/websocket"
 )
 
-// Global Manager
-var manager = types.Manager{
-	Nodes:   make(map[uuid.UUID]types.Node),
-	Clients: make(map[string]types.Client),
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
-// Home page for the REST API
-func landingPage(writer http.ResponseWriter, request *http.Request) {
-	// Guarantee header and write current manager
-	writer.Header().Set("Content-Type", "application/json")
+// Map to store connections by IP address
+var clients = make(map[string]*websocket.Conn)
 
-	// Encode and write, catch the error
-	err := json.NewEncoder(writer).Encode(manager)
+func handleWebSocket(w http.ResponseWriter, r *http.Request) {
+	// Handle upgrading out client from an http request to a websocket request.
+	connection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		http.Error(writer, "Error encoding JSON", http.StatusInternalServerError)
+		log.Println("Upgrade error:", err)
+		return
 	}
+	defer connection.Close()
 
-	// Print for success or error
-	utils.WrapErrorCheck(request, err, "Accessed landing page")
-}
-
-// Register node
-func registerNode(writer http.ResponseWriter, request *http.Request) {
-	// Create a new node instance
-	var node types.Node
-
-	// Catch and return any errors over HTTP
-	err := json.NewDecoder(request.Body).Decode(&node)
-	utils.WrapErrorCheck(request, err, "Successfully registered new node")
+	// Extract client IP address for storing them in a table
+	clientIP, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
-		http.Error(writer, "Invalid input data", http.StatusBadRequest)
+		log.Println("Error extracting IP:", err)
 		return
 	}
 
-	// Update the manager
-	node.UUID = uuid.New()
-	manager.Nodes[node.UUID] = node
+	// Store the WebSocket connection by client IP
+	clients[clientIP] = connection
+	log.Printf("Client connected: %s", clientIP)
 
-	// Write back the newly registered node
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusCreated)
-	json.NewEncoder(writer).Encode(node)
+	// Keep the connection open for sending commands
+	for {
+		_, message, err := connection.ReadMessage()
+		if err != nil {
+			log.Println("Read error:", err)
+			delete(clients, clientIP)
+			break
+		}
+
+		log.Printf("Received response from client [%s]: %s", clientIP, message)
+	}
 }
 
-// Register client
-func registerClient(writer http.ResponseWriter, request *http.Request) {
-	// Create a new node instance
-	var client types.Client
-
-	// Catch and return any errors over HTTP
-	err := json.NewDecoder(request.Body).Decode(&client)
-	utils.WrapErrorCheck(request, err, "Successfully registered new client")
-	if err != nil {
-		http.Error(writer, "Invalid input data", http.StatusBadRequest)
-		return
+func sendCommandToClients(command string) {
+	fullCommand := strings.TrimSpace(command)
+	for clientIP, clientConn := range clients {
+		if err := clientConn.WriteMessage(websocket.TextMessage, []byte(fullCommand)); err != nil {
+			log.Printf("Write error for client [%s]: %s", clientIP, err)
+			clientConn.Close()
+			delete(clients, clientIP)
+		} else {
+			log.Printf("Command sent to client [%s]: %s", clientIP, fullCommand)
+		}
 	}
+}
 
-	// Update the manager
-	manager.Clients[client.Address.Ipv4] = client
+func sendCommandToClient(ip_addr string, command string) {
+	fullCommand := strings.TrimSpace(command)
+	clientConn := clients[ip_addr]
 
-	// Write back the newly registered node
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusCreated)
-	json.NewEncoder(writer).Encode(client)
+	if err := clientConn.WriteMessage(websocket.TextMessage, []byte(fullCommand)); err != nil {
+		log.Printf("Write error for client [%s]: %s", ip_addr, err)
+		clientConn.Close()
+		delete(clients, ip_addr)
+	} else {
+		log.Printf("Command sent to client [%s]: %s", ip_addr, fullCommand)
+	}
 }
 
 func main() {
-	router := mux.NewRouter()
+	http.HandleFunc("/ws", handleWebSocket)
 
-	// Api access routes
-	router.HandleFunc("/", landingPage).Methods("GET")
-	router.HandleFunc("/register-node", registerNode).Methods("POST")
-	router.HandleFunc("/register-client", registerClient).Methods("POST")
+	go func() {
+		// Simulate sending commands to clients
+		for {
+			reader := bufio.NewReader(os.Stdin)
 
-	// Open server
-	localIP := utils.GetOutboundIP().String()
-	utils.LogMessage(localIP, "Beginning listening on port 8080 . . .")
-	http.ListenAndServe(":8080", router)
+			// Get ip address
+			fmt.Print("Enter ip address: ")
+			client_addr, _ := reader.ReadString('\n')
+			client_addr = client_addr[:len(client_addr)-1]
+
+			// Get command
+			fmt.Print("Enter command: ")
+			input, _ := reader.ReadString('\n')
+			// Remove the trailing newline
+			input = input[:len(input)-1]
+
+			sendCommandToClient(client_addr, input)
+			//sendCommandToClients(input)
+		}
+	}()
+
+	log.Println("Server started on :8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal("ListenAndServe error:", err)
+	}
 }

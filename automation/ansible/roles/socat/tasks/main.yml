@@ -1,0 +1,29 @@
+---
+- name: Install socat
+  apt:
+    name: socat
+
+- name: Get all C2 addresses
+  set_fact:
+    ip_port_list: "{{ lookup('file', '../templates/c2list.txt').splitlines() }}"
+
+- name: Grab all files locally
+  delegate_to: localhost
+  find:
+    paths: "/home/dtbm/github/CloudFlareway/automation/ansible/roles/socat/templates/socat_instances"
+    recurse: no
+    file_type: file
+  register: found_files
+
+- name: Copy over all services
+  copy:
+    src: "{{ item.path }}"
+    dest: "/etc/systemd/system/{{ item.path | basename }}"
+  loop: "{{ found_files.files }}"
+
+- name: Start all copied services
+  systemd:
+    name: "{{ item.path | basename | splitext | first }}"
+    state: started
+    enabled: yes
+  loop: "{{ found_files.files }}"

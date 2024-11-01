@@ -46,7 +46,11 @@ usage() {
     echo "Arguments:"
     echo "   deploy                             Deploys current terraform configuration"
     echo "   rebuild <proxy/manager> <index>    Rebuilds a specified node"
+    echo "       - Optionally, you may replace index with 'all' to replace every node."
     echo "   build                              Builds the entire proxy manager, destructively."
+    echo "   redirect <ip/fqdn> <port> [ssl]    Redirects to a provided ip and port combination on all nodes."
+    echo "       - SSL is an optional argument you pass in, leave it blank if you dont want SSL."
+    echo "       - To clean redirected files, run 'proxy-manager redirect clean'"
 }
 
 # Parse options
@@ -237,7 +241,6 @@ if [ "$1" == "deploy" ]; then
     terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
 
     terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
-
 elif [ "$1" == "rebuild" ]; then
     # Run the terraform required to create node, using the snapshot image provided by preimaging
     cd "${TERRAFORM_DIR}"
@@ -261,11 +264,63 @@ elif [ "$1" == "rebuild" ]; then
 
             print_status "Running terraform to bring node up" 2
             terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+            terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
+        elif [ "$3" == "all" ]; then
+            for i in {1..7}
+            do 
+                # Match to get proxy node we're removing then building
+                pattern="proxy-${i}"
+                print_status "Staging to remove ${pattern}" 2
+                # Stop creating the instance
+                sed -i s/"\"${pattern}\" = { create = true }"/"\"${pattern}\" = { create = false }"/ variables.tf
+            done
+            print_status "Running terraform to bring node down" 2
+            terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+            
+            for i in {1..7}
+            do
+                # Match to get proxy node we're removing then building
+                pattern="proxy-${i}"
+                print_status "Staging ${pattern}" 2
+                # Create the instance
+                sed -i s/"\"${pattern}\" = { create = false }"/"\"${pattern}\" = { create = true }"/ variables.tf
+            done
+            print_status "Running terraform to bring nodes up" 2
+            terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+            terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
         fi
     elif [ "$2" == "manager" ]; then
         echo "Create manager"
     else
         echo "Invalid argument"
+    fi
+elif [ "$1" == "image" ]; then
+    # Handle imaging the nodes with current configs
+    clear
+elif [ "$1" == "redirect" ]; then
+    if [ "$2" == "clean" ]; then
+        cd "${ANSIBLE_DIR}"
+        rm -rf "roles/socat/templates/socat_instances"
+        mkdir "roles/socat/templates/socat_instances"
+    else
+        # UUID generation
+        UUID=$(uuidgen)
+        cd "${ANSIBLE_DIR}"
+
+        # Create the socat file for the passed in argument
+        cd "roles/socat/templates"
+        cp "tmp.socat.service" "socat_instances/socat-${UUID}.service"
+
+        if [ "$4" == "ssl" ]; then
+            sed -i -e "s|<SOURCE_ADDRESS>|TCP4-LISTEN:${3},fork,reuseaddr|" "socat_instances/socat-${UUID}.service"
+            sed -i -e "s|<DESTINATION_ADDRESS>|ssl:${2}:${3},verify=0|" "socat_instances/socat-${UUID}.service"
+        else
+            sed -i -e "s|<SOURCE_ADDRESS>|TCP4-LISTEN:${3},fork,reuseaddr|" "socat_instances/socat-${UUID}.service"
+            sed -i -e "s|<DESTINATION_ADDRESS>|TCP4:${2}:${3}|" "socat_instances/socat-${UUID}.service"
+        fi
+        # Ansible to deploy socat
+        cd "${ANSIBLE_DIR}"
+        ansible-playbook -i inventory.yml -u root socat.yml
     fi
 elif [ "$1" == "build" ]; then
     clear
@@ -286,5 +341,12 @@ elif [ "$1" == "build" ]; then
         proxy-manager -v -p node
         proxy-manager -v -p manager
         proxy-manager -v deploy  
+    fi
+elif [ ! -z $1 ] && [ ! -z $2 ]; then
+    proxy-manager build
+    if [ -z "$3" ]; then
+        proxy-manager redirect $1 $2
+    else
+        proxy-manager redirect $1 $2 $3
     fi
 fi
