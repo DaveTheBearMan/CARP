@@ -5,6 +5,12 @@
     dest: /usr/local/bin/manager
     mode: '0755'
 
+- name: Make management binary available in home
+  copy:
+    src: "{{ role_path }}/templates/manager"
+    dest: /usr/local/
+    mode: '0755'
+
 - name: Clone manager systemd service
   copy:
     src: "{{ role_path }}/templates/proxy-manager.service"

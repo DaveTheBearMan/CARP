@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"os/exec"
 
 	"github.com/gorilla/websocket"
@@ -9,7 +11,7 @@ import (
 
 func main() {
 	// Connect to the WebSocket server
-	c, _, err := websocket.DefaultDialer.Dial("ws://localhost:8080/ws", nil)
+	c, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws", os.Args[1], os.Args[2]), nil)
 	if err != nil {
 		log.Fatal("dial:", err)
 	}

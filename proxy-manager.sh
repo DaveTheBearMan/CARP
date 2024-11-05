@@ -193,7 +193,7 @@ if [ "$rebuild_go" == true ]; then
     if [ $? -eq 0 ]; then
             print_status "Manager build successful!" 1
             chmod +x manager
-            mv manager "${MANAGER_TEMPLATE_DIR}"
+            cp manager "${MANAGER_TEMPLATE_DIR}"
     else
             print_status "Manager build failed!" 0
     fi
@@ -204,7 +204,7 @@ if [ "$rebuild_go" == true ]; then
     if [ $? -eq 0 ]; then
             print_status "Node build successful!" 1
             chmod +x node
-            mv node "${NODE_TEMPLATE_DIR}"
+            cp node "${NODE_TEMPLATE_DIR}"
     else
             print_status "Node build failed!" 0
     fi
@@ -291,12 +291,41 @@ elif [ "$1" == "rebuild" ]; then
         fi
     elif [ "$2" == "manager" ]; then
         echo "Create manager"
-    else
-        echo "Invalid argument"
+    elif [ "$2" == "all" ]; then
+        for i in {1..7}
+        do 
+            # Match to get proxy node we're removing then building
+            pattern="proxy-${i}"
+            print_status "Staging to remove ${pattern}" 2
+            # Stop creating the instance
+            sed -i s/"\"${pattern}\" = { create = true }"/"\"${pattern}\" = { create = false }"/ variables.tf
+        done
+        print_status "Staging to remove manager-1" 2
+        sed -i s/"\"manager-1\" = { create = true }"/"\"manager-1\" = { create = false }"/ variables.tf
+        print_status "Running terraform to bring node down" 2
+        terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+        
+        for i in {1..7}
+        do
+            # Match to get proxy node we're removing then building
+            pattern="proxy-${i}"
+            print_status "Staging ${pattern}" 2
+            # Create the instance
+            sed -i s/"\"${pattern}\" = { create = false }"/"\"${pattern}\" = { create = true }"/ variables.tf
+        done
+        print_status "Staging manager-1" 2
+        sed -i s/"\"manager-1\" = { create = false }"/"\"manager-1\" = { create = true }"/ variables.tf
+        print_status "Running terraform to bring nodes and manager up" 2
+        terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+        terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
+
+        print_status "Imaging new nodes and manager" 2
+        proxy-manager -b image
     fi
 elif [ "$1" == "image" ]; then
     # Handle imaging the nodes with current configs
-    clear
+    cd "${ANSIBLE_DIR}"
+    ansible-playbook image.yml -i inventory.yml
 elif [ "$1" == "redirect" ]; then
     if [ "$2" == "clean" ]; then
         print_status "Removing existing roles from the client." 2
@@ -351,8 +380,8 @@ elif [ "$1" == "build" ]; then
         proxy-manager -v -p manager
         proxy-manager -v deploy
     fi
-elif [ $1 == "output" ]; then
-    if [ $2 == "ansible" ]; then
+elif [ "$1" == "output" ]; then
+    if [ "$2" == "ansible" ]; then
         cd "${ANSIBLE_DIR}"
         cat inventory.yml
     elif [ $2 == "terraform" ]; then

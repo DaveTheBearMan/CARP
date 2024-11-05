@@ -3,7 +3,7 @@ Description=Proxy Manager Service
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/manager
+ExecStart=/usr/bin/screen -DmS manager /usr/local/bin/manager
 User=root
 Group=root
 Restart=always

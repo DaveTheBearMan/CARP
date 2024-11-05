@@ -10,6 +10,14 @@
     src: "{{ role_path }}/templates/node-manager.service"
     dest: /etc/systemd/system/node-manager.service
 
+- name: Update node systemd service to run with ip address and port.
+  lineinfile:
+    path: /etc/systemd/system/node-manager.service
+    regexp: '^ExecStart='
+    line: 'ExecStart=/usr/local/bin/proxynode {{ groups["manager_public_ips"][0] }} {{ port }}'
+  vars:
+    port: 8080
+
 - name: Restart systemd
   systemd:
     daemon_reload: yes
