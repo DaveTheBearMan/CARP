@@ -4,7 +4,7 @@
 [1;32m==> digitalocean.manager: Importing SSH public key...[0m
 [1;32m==> digitalocean.manager: Creating droplet...[0m
 [1;32m==> digitalocean.manager: Waiting for droplet to become active...[0m
-[1;32m==> digitalocean.manager: Using SSH communicator to connect: 134.209.120.101[0m
+[1;32m==> digitalocean.manager: Using SSH communicator to connect: 192.34.63.212[0m
 [1;32m==> digitalocean.manager: Waiting for SSH to become available...[0m
 [1;32m==> digitalocean.manager: Connected to SSH![0m
 [1;32m==> digitalocean.manager: Provisioning with shell script: scripts/ansible.sh[0m
@@ -14,16 +14,16 @@
 [0;32m    digitalocean.manager: Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease[0m
 [0;32m    digitalocean.manager: Get:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB][0m
 [0;32m    digitalocean.manager: Get:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB][0m
-[0;32m    digitalocean.manager: Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [611 kB][0m
+[0;32m    digitalocean.manager: Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [615 kB][0m
 [0;32m    digitalocean.manager: Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main Translation-en [148 kB][0m
 [0;32m    digitalocean.manager: Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [114 kB][0m
 [0;32m    digitalocean.manager: Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 c-n-f Metadata [10.4 kB][0m
 [0;32m    digitalocean.manager: Get:8 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [710 kB][0m
 [0;32m    digitalocean.manager: Get:9 http://archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [211 kB][0m
-[0;32m    digitalocean.manager: Get:10 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [305 kB][0m
+[0;32m    digitalocean.manager: Get:10 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [306 kB][0m
 [0;32m    digitalocean.manager: Get:11 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 c-n-f Metadata [19.9 kB][0m
-[0;32m    digitalocean.manager: Get:12 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [405 kB][0m
-[0;32m    digitalocean.manager: Get:13 http://archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [77.1 kB][0m
+[0;32m    digitalocean.manager: Get:12 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [413 kB][0m
+[0;32m    digitalocean.manager: Get:13 http://archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [79.1 kB][0m
 [0;32m    digitalocean.manager: Get:14 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B][0m
 [0;32m    digitalocean.manager: Get:15 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 c-n-f Metadata [424 B][0m
 [0;32m    digitalocean.manager: Get:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [15.0 kB][0m
@@ -33,18 +33,18 @@
 [0;32m    digitalocean.manager: Get:20 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [208 B][0m
 [0;32m    digitalocean.manager: Get:21 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [10.6 kB][0m
 [0;32m    digitalocean.manager: Get:22 http://archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [10.8 kB][0m
-[0;32m    digitalocean.manager: Get:23 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [21.2 kB][0m
+[0;32m    digitalocean.manager: Get:23 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [21.1 kB][0m
 [0;32m    digitalocean.manager: Get:24 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 c-n-f Metadata [1104 B][0m
 [0;32m    digitalocean.manager: Get:25 http://archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [216 B][0m
 [0;32m    digitalocean.manager: Get:26 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B][0m
 [0;32m    digitalocean.manager: Get:27 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB][0m
-[0;32m    digitalocean.manager: Get:28 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [438 kB][0m
-[0;32m    digitalocean.manager: Get:29 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [94.8 kB][0m
-[0;32m    digitalocean.manager: Get:30 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [7240 B][0m
+[0;32m    digitalocean.manager: Get:28 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [444 kB][0m
+[0;32m    digitalocean.manager: Get:29 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [95.1 kB][0m
+[0;32m    digitalocean.manager: Get:30 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [7244 B][0m
 [0;32m    digitalocean.manager: Get:31 http://security.ubuntu.com/ubuntu noble-security/main amd64 c-n-f Metadata [5892 B][0m
 [0;32m    digitalocean.manager: Get:32 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [557 kB][0m
 [0;32m    digitalocean.manager: Get:33 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [149 kB][0m
-[0;32m    digitalocean.manager: Get:34 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [51.9 kB][0m
+[0;32m    digitalocean.manager: Get:34 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [52.0 kB][0m
 [0;32m    digitalocean.manager: Get:35 http://security.ubuntu.com/ubuntu noble-security/universe amd64 c-n-f Metadata [13.5 kB][0m
 [0;32m    digitalocean.manager: Get:36 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [394 kB][0m
 [0;32m    digitalocean.manager: Get:37 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [75.7 kB][0m
@@ -52,9 +52,9 @@
 [0;32m    digitalocean.manager: Get:39 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 c-n-f Metadata [424 B][0m
 [0;32m    digitalocean.manager: Get:40 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [12.2 kB][0m
 [0;32m    digitalocean.manager: Get:41 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [2940 B][0m
-[0;32m    digitalocean.manager: Get:42 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [212 B][0m
+[0;32m    digitalocean.manager: Get:42 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B][0m
 [0;32m    digitalocean.manager: Get:43 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 c-n-f Metadata [356 B][0m
-[0;32m    digitalocean.manager: Fetched 4859 kB in 10s (472 kB/s)[0m
+[0;32m    digitalocean.manager: Fetched 4878 kB in 10s (483 kB/s)[0m
 [0;32m    digitalocean.manager: Reading package lists...[0m
 [1;31m==> digitalocean.manager: + sleep 2[0m
 [1;31m==> digitalocean.manager: + apt-get -o DPkg::Lock::Timeout=900 install -y software-properties-common[0m
@@ -66,9 +66,58 @@
 [0;32m    digitalocean.manager: software-properties-common set to manually installed.[0m
 [0;32m    digitalocean.manager: 0 upgraded, 0 newly installed, 0 to remove and 54 not upgraded.[0m
 [1;31m==> digitalocean.manager: + add-apt-repository --yes --update ppa:ansible/ansible[0m
+[0;32m    digitalocean.manager: Get:1 http://mirrors.digitalocean.com/ubuntu noble InRelease [256 kB][0m
+[0;32m    digitalocean.manager: Get:2 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease [5518 B][0m
+[0;32m    digitalocean.manager: Hit:3 http://security.ubuntu.com/ubuntu noble-security InRelease[0m
+[0;32m    digitalocean.manager: Get:4 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease [126 kB][0m
+[0;32m    digitalocean.manager: Get:5 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease [126 kB][0m
+[0;32m    digitalocean.manager: Get:6 http://mirrors.digitalocean.com/ubuntu noble/main amd64 Packages [1401 kB][0m
+[0;32m    digitalocean.manager: Get:7 http://mirrors.digitalocean.com/ubuntu noble/main Translation-en [513 kB][0m
+[0;32m    digitalocean.manager: Get:8 https://repos-droplet.digitalocean.com/apt/droplet-agent main/main amd64 Packages [3330 B][0m
+[0;32m    digitalocean.manager: Get:9 http://mirrors.digitalocean.com/ubuntu noble/main amd64 Components [464 kB][0m
+[0;32m    digitalocean.manager: Get:10 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble InRelease [17.8 kB][0m
+[0;32m    digitalocean.manager: Get:11 http://mirrors.digitalocean.com/ubuntu noble/main amd64 c-n-f Metadata [30.5 kB][0m
+[0;32m    digitalocean.manager: Get:12 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 Packages [15.0 MB][0m
+[0;32m    digitalocean.manager: Get:13 http://mirrors.digitalocean.com/ubuntu noble/universe Translation-en [5982 kB][0m
+[0;32m    digitalocean.manager: Get:14 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 Components [3871 kB][0m
+[0;32m    digitalocean.manager: Get:15 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 c-n-f Metadata [301 kB][0m
+[0;32m    digitalocean.manager: Get:16 http://mirrors.digitalocean.com/ubuntu noble/restricted amd64 Packages [93.9 kB][0m
+[0;32m    digitalocean.manager: Get:17 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 Packages [776 B][0m
+[0;32m    digitalocean.manager: Get:18 http://mirrors.digitalocean.com/ubuntu noble/restricted Translation-en [18.7 kB][0m
+[0;32m    digitalocean.manager: Get:19 http://mirrors.digitalocean.com/ubuntu noble/restricted amd64 c-n-f Metadata [416 B][0m
+[0;32m    digitalocean.manager: Get:20 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main Translation-en [472 B][0m
+[0;32m    digitalocean.manager: Get:21 http://mirrors.digitalocean.com/ubuntu noble/multiverse amd64 Packages [269 kB][0m
+[0;32m    digitalocean.manager: Get:22 http://mirrors.digitalocean.com/ubuntu noble/multiverse Translation-en [118 kB][0m
+[0;32m    digitalocean.manager: Get:23 http://mirrors.digitalocean.com/ubuntu noble/multiverse amd64 Components [35.0 kB][0m
+[0;32m    digitalocean.manager: Get:24 http://mirrors.digitalocean.com/ubuntu noble/multiverse amd64 c-n-f Metadata [8328 B][0m
+[0;32m    digitalocean.manager: Get:25 http://mirrors.digitalocean.com/ubuntu noble-updates/main amd64 Packages [615 kB][0m
+[0;32m    digitalocean.manager: Get:26 http://mirrors.digitalocean.com/ubuntu noble-updates/main Translation-en [148 kB][0m
+[0;32m    digitalocean.manager: Get:27 http://mirrors.digitalocean.com/ubuntu noble-updates/main amd64 Components [114 kB][0m
+[0;32m    digitalocean.manager: Get:28 http://mirrors.digitalocean.com/ubuntu noble-updates/main amd64 c-n-f Metadata [10.4 kB][0m
+[0;32m    digitalocean.manager: Get:29 http://mirrors.digitalocean.com/ubuntu noble-updates/universe amd64 Packages [710 kB][0m
+[0;32m    digitalocean.manager: Get:30 http://mirrors.digitalocean.com/ubuntu noble-updates/universe Translation-en [211 kB][0m
+[0;32m    digitalocean.manager: Get:31 http://mirrors.digitalocean.com/ubuntu noble-updates/universe amd64 Components [305 kB][0m
+[0;32m    digitalocean.manager: Get:32 http://mirrors.digitalocean.com/ubuntu noble-updates/universe amd64 c-n-f Metadata [19.9 kB][0m
+[0;32m    digitalocean.manager: Get:33 http://mirrors.digitalocean.com/ubuntu noble-updates/restricted amd64 Packages [413 kB][0m
+[0;32m    digitalocean.manager: Get:34 http://mirrors.digitalocean.com/ubuntu noble-updates/restricted Translation-en [79.1 kB][0m
+[0;32m    digitalocean.manager: Get:35 http://mirrors.digitalocean.com/ubuntu noble-updates/restricted amd64 Components [212 B][0m
+[0;32m    digitalocean.manager: Get:36 http://mirrors.digitalocean.com/ubuntu noble-updates/restricted amd64 c-n-f Metadata [424 B][0m
+[0;32m    digitalocean.manager: Get:37 http://mirrors.digitalocean.com/ubuntu noble-updates/multiverse amd64 Packages [15.0 kB][0m
+[0;32m    digitalocean.manager: Get:38 http://mirrors.digitalocean.com/ubuntu noble-updates/multiverse Translation-en [3820 B][0m
+[0;32m    digitalocean.manager: Get:39 http://mirrors.digitalocean.com/ubuntu noble-updates/multiverse amd64 Components [940 B][0m
+[0;32m    digitalocean.manager: Get:40 http://mirrors.digitalocean.com/ubuntu noble-updates/multiverse amd64 c-n-f Metadata [552 B][0m
+[0;32m    digitalocean.manager: Get:41 http://mirrors.digitalocean.com/ubuntu noble-backports/main amd64 Components [208 B][0m
+[0;32m    digitalocean.manager: Get:42 http://mirrors.digitalocean.com/ubuntu noble-backports/main amd64 c-n-f Metadata [112 B][0m
+[0;32m    digitalocean.manager: Get:43 http://mirrors.digitalocean.com/ubuntu noble-backports/universe amd64 Packages [10.6 kB][0m
+[0;32m    digitalocean.manager: Get:44 http://mirrors.digitalocean.com/ubuntu noble-backports/universe Translation-en [10.8 kB][0m
+[0;32m    digitalocean.manager: Get:45 http://mirrors.digitalocean.com/ubuntu noble-backports/universe amd64 Components [21.1 kB][0m
+[0;32m    digitalocean.manager: Get:46 http://mirrors.digitalocean.com/ubuntu noble-backports/universe amd64 c-n-f Metadata [1104 B][0m
+[0;32m    digitalocean.manager: Get:47 http://mirrors.digitalocean.com/ubuntu noble-backports/restricted amd64 Components [216 B][0m
+[0;32m    digitalocean.manager: Get:48 http://mirrors.digitalocean.com/ubuntu noble-backports/restricted amd64 c-n-f Metadata [116 B][0m
+[0;32m    digitalocean.manager: Get:49 http://mirrors.digitalocean.com/ubuntu noble-backports/multiverse amd64 Components [212 B][0m
+[0;32m    digitalocean.manager: Get:50 http://mirrors.digitalocean.com/ubuntu noble-backports/multiverse amd64 c-n-f Metadata [116 B][0m
+[0;32m    digitalocean.manager: Fetched 31.4 MB in 6s (4872 kB/s)[0m
 [0;32m    digitalocean.manager: Reading package lists...[0m
-[1;31m==> digitalocean.manager: E: Could not get lock /var/lib/apt/lists/lock. It is held by process 1730 (apt-get)[0m
-[1;31m==> digitalocean.manager: E: Unable to lock directory /var/lib/apt/lists/[0m
 [0;32m    digitalocean.manager: Repository: 'Types: deb[0m
 [0;32m    digitalocean.manager: URIs: https://ppa.launchpadcontent.net/ansible/ansible/ubuntu/[0m
 [0;32m    digitalocean.manager: Suites: noble[0m
@@ -89,108 +138,85 @@
 [0;32m    digitalocean.manager: Building dependency tree...[0m
 [0;32m    digitalocean.manager: Reading state information...[0m
 [0;32m    digitalocean.manager: The following additional packages will be installed:[0m
-[0;32m    digitalocean.manager:   ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
-[0;32m    digitalocean.manager:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
-[0;32m    digitalocean.manager:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
-[0;32m    digitalocean.manager:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
+[0;32m    digitalocean.manager:   ansible-core python3-jmespath python3-kerberos python3-nacl[0m
+[0;32m    digitalocean.manager:   python3-ntlm-auth python3-packaging python3-paramiko python3-requests-ntlm[0m
+[0;32m    digitalocean.manager:   python3-resolvelib python3-winrm python3-xmltodict sshpass[0m
 [0;32m    digitalocean.manager: Suggested packages:[0m
-[0;32m    digitalocean.manager:   cowsay sshpass python3-trio python3-aioquic python3-h2 python3-httpx[0m
-[0;32m    digitalocean.manager:   python3-httpcore python-lockfile-doc[0m
+[0;32m    digitalocean.manager:   python-nacl-doc python3-gssapi python3-invoke[0m
 [0;32m    digitalocean.manager: The following NEW packages will be installed:[0m
-[0;32m    digitalocean.manager:   ansible ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
-[0;32m    digitalocean.manager:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
-[0;32m    digitalocean.manager:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
-[0;32m    digitalocean.manager:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
-[0;32m    digitalocean.manager: 0 upgraded, 17 newly installed, 0 to remove and 174 not upgraded.[0m
-[0;32m    digitalocean.manager: Need to get 19.6 MB of archives.[0m
-[0;32m    digitalocean.manager: After this operation, 315 MB of additional disk space will be used.[0m
+[0;32m    digitalocean.manager:   ansible ansible-core python3-jmespath python3-kerberos python3-nacl[0m
+[0;32m    digitalocean.manager:   python3-ntlm-auth python3-packaging python3-paramiko python3-requests-ntlm[0m
+[0;32m    digitalocean.manager:   python3-resolvelib python3-winrm python3-xmltodict sshpass[0m
+[0;32m    digitalocean.manager: 0 upgraded, 13 newly installed, 0 to remove and 174 not upgraded.[0m
+[0;32m    digitalocean.manager: Need to get 18.7 MB of archives.[0m
+[0;32m    digitalocean.manager: After this operation, 206 MB of additional disk space will be used.[0m
 [0;32m    digitalocean.manager: Get:1 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-packaging all 24.0-1 [41.1 kB][0m
 [0;32m    digitalocean.manager: Get:2 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-resolvelib all 1.0.1-1 [25.7 kB][0m
-[0;32m    digitalocean.manager: Get:3 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-dnspython all 2.6.1-1ubuntu1 [163 kB][0m
-[0;32m    digitalocean.manager: Get:4 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 ansible-core all 2.16.3-0ubuntu2 [1280 kB][0m
-[0;32m    digitalocean.manager: Get:5 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 ansible all 9.2.0+dfsg-0ubuntu5 [16.4 MB][0m
-[0;32m    digitalocean.manager: Get:6 http://mirrors.digitalocean.com/ubuntu noble-updates/universe amd64 python3-argcomplete all 3.1.4-1ubuntu0.1 [33.8 kB][0m
-[0;32m    digitalocean.manager: Get:7 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-jmespath all 1.0.1-1 [21.3 kB][0m
-[0;32m    digitalocean.manager: Get:8 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-kerberos amd64 1.1.14-3.1build9 [21.2 kB][0m
-[0;32m    digitalocean.manager: Get:9 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-lockfile all 1:0.12.2-3 [13.7 kB][0m
-[0;32m    digitalocean.manager: Get:10 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-simplejson amd64 3.19.2-1build2 [54.5 kB][0m
-[0;32m    digitalocean.manager: Get:11 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-libcloud all 3.4.1-5 [751 kB][0m
-[0;32m    digitalocean.manager: Get:12 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-ntlm-auth all 1.5.0-1 [21.3 kB][0m
-[0;32m    digitalocean.manager: Get:13 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-requests-ntlm all 1.1.0-3 [6308 B][0m
-[0;32m    digitalocean.manager: Get:14 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-selinux amd64 3.5-2ubuntu2 [165 kB][0m
-[0;32m    digitalocean.manager: Get:15 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-xmltodict all 0.13.0-1 [13.4 kB][0m
-[0;32m    digitalocean.manager: Get:16 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-winrm all 0.4.3-2 [31.9 kB][0m
-[0;32m    digitalocean.manager: Get:17 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-passlib all 1.7.4-4 [476 kB][0m
-[0;32m    digitalocean.manager: Fetched 19.6 MB in 1s (23.2 MB/s)[0m
+[0;32m    digitalocean.manager: Get:3 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-jmespath all 1.0.1-1 [21.3 kB][0m
+[0;32m    digitalocean.manager: Get:4 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-kerberos amd64 1.1.14-3.1build9 [21.2 kB][0m
+[0;32m    digitalocean.manager: Get:5 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-nacl amd64 1.5.0-4build1 [57.9 kB][0m
+[0;32m    digitalocean.manager: Get:6 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-ntlm-auth all 1.5.0-1 [21.3 kB][0m
+[0;32m    digitalocean.manager: Get:7 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-paramiko all 2.12.0-2ubuntu4 [137 kB][0m
+[0;32m    digitalocean.manager: Get:8 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-requests-ntlm all 1.1.0-3 [6308 B][0m
+[0;32m    digitalocean.manager: Get:9 http://mirrors.digitalocean.com/ubuntu noble/main amd64 python3-xmltodict all 0.13.0-1 [13.4 kB][0m
+[0;32m    digitalocean.manager: Get:10 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 python3-winrm all 0.4.3-2 [31.9 kB][0m
+[0;32m    digitalocean.manager: Get:11 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 ansible-core all 2.17.5-1ppa~noble [1014 kB][0m
+[0;32m    digitalocean.manager: Get:12 http://mirrors.digitalocean.com/ubuntu noble/universe amd64 sshpass amd64 1.09-1 [11.7 kB][0m
+[0;32m    digitalocean.manager: Get:13 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 ansible all 10.5.0-1ppa~noble [17.3 MB][0m
+[0;32m    digitalocean.manager: Fetched 18.7 MB in 1s (13.6 MB/s)[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-packaging.[0m
-[0;32m    digitalocean.manager: (Reading database ... 71879 files and directories currently installed.)[0m
+[0;32m    digitalocean.manager: (Reading database ... 71875 files and directories currently installed.)[0m
 [0;32m    digitalocean.manager: Preparing to unpack .../00-python3-packaging_24.0-1_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-packaging (24.0-1) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-resolvelib.[0m
 [0;32m    digitalocean.manager: Preparing to unpack .../01-python3-resolvelib_1.0.1-1_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-resolvelib (1.0.1-1) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-dnspython.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../02-python3-dnspython_2.6.1-1ubuntu1_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-dnspython (2.6.1-1ubuntu1) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package ansible-core.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../03-ansible-core_2.16.3-0ubuntu2_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking ansible-core (2.16.3-0ubuntu2) ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../02-ansible-core_2.17.5-1ppa~noble_all.deb ...[0m
+[0;32m    digitalocean.manager: Unpacking ansible-core (2.17.5-1ppa~noble) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package ansible.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../04-ansible_9.2.0+dfsg-0ubuntu5_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking ansible (9.2.0+dfsg-0ubuntu5) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-argcomplete.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../05-python3-argcomplete_3.1.4-1ubuntu0.1_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-argcomplete (3.1.4-1ubuntu0.1) ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../03-ansible_10.5.0-1ppa~noble_all.deb ...[0m
+[0;32m    digitalocean.manager: Unpacking ansible (10.5.0-1ppa~noble) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-jmespath.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../06-python3-jmespath_1.0.1-1_all.deb ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../04-python3-jmespath_1.0.1-1_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-jmespath (1.0.1-1) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-kerberos.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../07-python3-kerberos_1.1.14-3.1build9_amd64.deb ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../05-python3-kerberos_1.1.14-3.1build9_amd64.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-kerberos (1.1.14-3.1build9) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-lockfile.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../08-python3-lockfile_1%3a0.12.2-3_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-lockfile (1:0.12.2-3) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-simplejson.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../09-python3-simplejson_3.19.2-1build2_amd64.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-simplejson (3.19.2-1build2) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-libcloud.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../10-python3-libcloud_3.4.1-5_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-libcloud (3.4.1-5) ...[0m
+[0;32m    digitalocean.manager: Selecting previously unselected package python3-nacl.[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../06-python3-nacl_1.5.0-4build1_amd64.deb ...[0m
+[0;32m    digitalocean.manager: Unpacking python3-nacl (1.5.0-4build1) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-ntlm-auth.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../11-python3-ntlm-auth_1.5.0-1_all.deb ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../07-python3-ntlm-auth_1.5.0-1_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-ntlm-auth (1.5.0-1) ...[0m
+[0;32m    digitalocean.manager: Selecting previously unselected package python3-paramiko.[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../08-python3-paramiko_2.12.0-2ubuntu4_all.deb ...[0m
+[0;32m    digitalocean.manager: Unpacking python3-paramiko (2.12.0-2ubuntu4) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-requests-ntlm.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../12-python3-requests-ntlm_1.1.0-3_all.deb ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../09-python3-requests-ntlm_1.1.0-3_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-requests-ntlm (1.1.0-3) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-selinux.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../13-python3-selinux_3.5-2ubuntu2_amd64.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-selinux (3.5-2ubuntu2) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-xmltodict.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../14-python3-xmltodict_0.13.0-1_all.deb ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../10-python3-xmltodict_0.13.0-1_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-xmltodict (0.13.0-1) ...[0m
 [0;32m    digitalocean.manager: Selecting previously unselected package python3-winrm.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../15-python3-winrm_0.4.3-2_all.deb ...[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../11-python3-winrm_0.4.3-2_all.deb ...[0m
 [0;32m    digitalocean.manager: Unpacking python3-winrm (0.4.3-2) ...[0m
-[0;32m    digitalocean.manager: Selecting previously unselected package python3-passlib.[0m
-[0;32m    digitalocean.manager: Preparing to unpack .../16-python3-passlib_1.7.4-4_all.deb ...[0m
-[0;32m    digitalocean.manager: Unpacking python3-passlib (1.7.4-4) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-lockfile (1:0.12.2-3) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-passlib (1.7.4-4) ...[0m
+[0;32m    digitalocean.manager: Selecting previously unselected package sshpass.[0m
+[0;32m    digitalocean.manager: Preparing to unpack .../12-sshpass_1.09-1_amd64.deb ...[0m
+[0;32m    digitalocean.manager: Unpacking sshpass (1.09-1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-ntlm-auth (1.5.0-1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-resolvelib (1.0.1-1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-kerberos (1.1.14-3.1build9) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-simplejson (3.19.2-1build2) ...[0m
+[0;32m    digitalocean.manager: Setting up sshpass (1.09-1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-xmltodict (0.13.0-1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-packaging (24.0-1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-jmespath (1.0.1-1) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-dnspython (2.6.1-1ubuntu1) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-selinux (3.5-2ubuntu2) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-argcomplete (3.1.4-1ubuntu0.1) ...[0m
+[0;32m    digitalocean.manager: Setting up python3-nacl (1.5.0-4build1) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-requests-ntlm (1.1.0-3) ...[0m
-[0;32m    digitalocean.manager: Setting up ansible-core (2.16.3-0ubuntu2) ...[0m
-[0;32m    digitalocean.manager: Setting up python3-libcloud (3.4.1-5) ...[0m
+[0;32m    digitalocean.manager: Setting up ansible-core (2.17.5-1ppa~noble) ...[0m
 [0;32m    digitalocean.manager: Setting up python3-winrm (0.4.3-2) ...[0m
-[0;32m    digitalocean.manager: Setting up ansible (9.2.0+dfsg-0ubuntu5) ...[0m
+[0;32m    digitalocean.manager: Setting up ansible (10.5.0-1ppa~noble) ...[0m
+[0;32m    digitalocean.manager: Setting up python3-paramiko (2.12.0-2ubuntu4) ...[0m
 [0;32m    digitalocean.manager: Processing triggers for man-db (2.12.0-4build2) ...[0m
 [0;32m    digitalocean.manager:[0m
 [0;32m    digitalocean.manager: Running kernel seems to be up-to-date.[0m
@@ -204,19 +230,19 @@
 [0;32m    digitalocean.manager: No VM guests are running outdated hypervisor (qemu) binaries on this host.[0m
 [1;31m==> digitalocean.manager: + sleep 2[0m
 [1;32m==> digitalocean.manager: Uploading keys/private_key.asc => /[0m
-[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [=====================================================================] 100.00% 0s
-[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [=====================================================================] 100.00% 0s
+[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [=============================================] 100.00% 0s
+[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [=============================================] 100.00% 0s
 [1;32m==> digitalocean.manager: Provisioning with Ansible...[0m
 [0;32m    digitalocean.manager: Creating Ansible staging directory...[0m
-[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d[0m
+[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5[0m
 [0;32m    digitalocean.manager: Uploading main Playbook file...[0m
 [0;32m    digitalocean.manager: Uploading inventory file...[0m
 [0;32m    digitalocean.manager: Uploading group_vars directory...[0m
-[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d/group_vars[0m
+[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5/group_vars[0m
 [0;32m    digitalocean.manager: Uploading role directories...[0m
-[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d/roles/golang[0m
-[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d/roles/manager[0m
-[0;32m    digitalocean.manager: Executing Ansible: cd /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d &&  ANSIBLE_FORCE_COLOR=1 PYTHONUNBUFFERED=1 ansible-playbook /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d/manager.yml --extra-vars "packer_build_name=manager packer_builder_type=digitalocean packer_http_addr=ERR_HTTP_ADDR_NOT_IMPLEMENTED_BY_BUILDER -o IdentitiesOnly=yes"  -c local -i /tmp/packer-provisioner-ansible-local/67242e65-682d-7814-7a01-b0f691f8923d/packer-provisioner-ansible-local1652725691[0m
+[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5/roles/golang[0m
+[0;32m    digitalocean.manager: Creating directory: /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5/roles/manager[0m
+[0;32m    digitalocean.manager: Executing Ansible: cd /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5 &&  ANSIBLE_FORCE_COLOR=1 PYTHONUNBUFFERED=1 ansible-playbook /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5/manager.yml --extra-vars "packer_build_name=manager packer_builder_type=digitalocean packer_http_addr=ERR_HTTP_ADDR_NOT_IMPLEMENTED_BY_BUILDER -o IdentitiesOnly=yes"  -c local -i /tmp/packer-provisioner-ansible-local/67293e65-8658-dec9-1ff0-8ca5b847ebf5/packer-provisioner-ansible-local2269399892[0m
 [0;32m    digitalocean.manager:[0m
 [0;32m    digitalocean.manager: PLAY [Install Manager Service] *************************************************[0m
 [0;32m    digitalocean.manager:[0m
@@ -266,30 +292,30 @@
 [0;32m    digitalocean.manager:[0m
 [1;32m==> digitalocean.manager: Provisioning with shell script: scripts/cleanup.sh[0m
 [1;31m==> digitalocean.manager: + apt-get -o DPkg::Lock::Timeout=900 remove --purge ansible -y[0m
+[0;32m    digitalocean.manager: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 3224 (apt-get)...[0m
+[0;32m    digitalocean.manager: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 3224 (apt-get)...[0m
+[0;32m    digitalocean.manager: Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 3224 (apt-get)...[0m
 [0;32m    digitalocean.manager: Reading package lists...[0m
 [0;32m    digitalocean.manager: Building dependency tree...[0m
 [0;32m    digitalocean.manager: Reading state information...[0m
 [0;32m    digitalocean.manager: The following packages were automatically installed and are no longer required:[0m
-[0;32m    digitalocean.manager:   ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
-[0;32m    digitalocean.manager:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
-[0;32m    digitalocean.manager:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
-[0;32m    digitalocean.manager:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
+[0;32m    digitalocean.manager:   ansible-core python3-jmespath python3-kerberos python3-nacl[0m
+[0;32m    digitalocean.manager:   python3-ntlm-auth python3-packaging python3-paramiko python3-requests-ntlm[0m
+[0;32m    digitalocean.manager:   python3-resolvelib python3-winrm python3-xmltodict sshpass[0m
 [0;32m    digitalocean.manager: Use 'apt autoremove' to remove them.[0m
 [0;32m    digitalocean.manager: The following packages will be REMOVED:[0m
 [0;32m    digitalocean.manager:   ansible*[0m
-[0;32m    digitalocean.manager: 0 upgraded, 0 newly installed, 1 to remove and 175 not upgraded.[0m
-[0;32m    digitalocean.manager: After this operation, 294 MB disk space will be freed.[0m
-[0;32m    digitalocean.manager: (Reading database ... 95000 files and directories currently installed.)[0m
-[0;32m    digitalocean.manager: Removing ansible (9.2.0+dfsg-0ubuntu5) ...[0m
-[0;32m    digitalocean.manager: Processing triggers for man-db (2.12.0-4build2) ...[0m
-[0;32m    digitalocean.manager: (Reading database ... 73980 files and directories currently installed.)[0m
-[0;32m    digitalocean.manager: Purging configuration files for ansible (9.2.0+dfsg-0ubuntu5) ...[0m
+[0;32m    digitalocean.manager: 0 upgraded, 0 newly installed, 1 to remove and 174 not upgraded.[0m
+[0;32m    digitalocean.manager: After this operation, 197 MB disk space will be freed.[0m
+[0;32m    digitalocean.manager: (Reading database ... 95567 files and directories currently installed.)[0m
+[0;32m    digitalocean.manager: Removing ansible (10.5.0-1ppa~noble) ...[0m
 [1;31m==> digitalocean.manager: + apt-add-repository --remove ppa:ansible/ansible[0m
-[0;32m    digitalocean.manager: Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease[0m
-[0;32m    digitalocean.manager: Hit:2 http://mirrors.digitalocean.com/ubuntu noble InRelease[0m
-[0;32m    digitalocean.manager: Hit:3 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease[0m
-[0;32m    digitalocean.manager: Hit:4 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease[0m
-[0;32m    digitalocean.manager: Hit:5 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease[0m
+[0;32m    digitalocean.manager: Hit:1 http://mirrors.digitalocean.com/ubuntu noble InRelease[0m
+[0;32m    digitalocean.manager: Hit:2 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease[0m
+[0;32m    digitalocean.manager: Hit:3 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease[0m
+[0;32m    digitalocean.manager: Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease[0m
+[0;32m    digitalocean.manager: Get:5 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease [126 kB][0m
+[0;32m    digitalocean.manager: Fetched 126 kB in 1s (160 kB/s)[0m
 [0;32m    digitalocean.manager: Reading package lists...[0m
 [0;32m    digitalocean.manager: Repository: 'Types: deb[0m
 [0;32m    digitalocean.manager: URIs: https://ppa.launchpadcontent.net/ansible/ansible/ubuntu/[0m
@@ -311,45 +337,40 @@
 [0;32m    digitalocean.manager: Building dependency tree...[0m
 [0;32m    digitalocean.manager: Reading state information...[0m
 [0;32m    digitalocean.manager: The following packages will be REMOVED:[0m
-[0;32m    digitalocean.manager:   ansible-core python3-argcomplete python3-dnspython python3-jmespath[0m
-[0;32m    digitalocean.manager:   python3-kerberos python3-libcloud python3-lockfile python3-ntlm-auth[0m
-[0;32m    digitalocean.manager:   python3-packaging python3-passlib python3-requests-ntlm python3-resolvelib[0m
-[0;32m    digitalocean.manager:   python3-selinux python3-simplejson python3-winrm python3-xmltodict[0m
-[0;32m    digitalocean.manager: 0 upgraded, 0 newly installed, 16 to remove and 174 not upgraded.[0m
-[0;32m    digitalocean.manager: After this operation, 21.3 MB disk space will be freed.[0m
-[0;32m    digitalocean.manager: (Reading database ... 73980 files and directories currently installed.)[0m
-[0;32m    digitalocean.manager: Removing ansible-core (2.16.3-0ubuntu2) ...[0m
-[0;32m    digitalocean.manager: Removing python3-argcomplete (3.1.4-1ubuntu0.1) ...[0m
-[0;32m    digitalocean.manager: Removing python3-dnspython (2.6.1-1ubuntu1) ...[0m
+[0;32m    digitalocean.manager:   ansible-core python3-jmespath python3-kerberos python3-nacl[0m
+[0;32m    digitalocean.manager:   python3-ntlm-auth python3-packaging python3-paramiko python3-requests-ntlm[0m
+[0;32m    digitalocean.manager:   python3-resolvelib python3-winrm python3-xmltodict sshpass[0m
+[0;32m    digitalocean.manager: 0 upgraded, 0 newly installed, 12 to remove and 174 not upgraded.[0m
+[0;32m    digitalocean.manager: After this operation, 8284 kB disk space will be freed.[0m
+[0;32m    digitalocean.manager: (Reading database ... 72977 files and directories currently installed.)[0m
+[0;32m    digitalocean.manager: Removing ansible-core (2.17.5-1ppa~noble) ...[0m
 [0;32m    digitalocean.manager: Removing python3-jmespath (1.0.1-1) ...[0m
 [0;32m    digitalocean.manager: Removing python3-kerberos (1.1.14-3.1build9) ...[0m
-[0;32m    digitalocean.manager: Removing python3-libcloud (3.4.1-5) ...[0m
-[0;32m    digitalocean.manager: Removing python3-lockfile (1:0.12.2-3) ...[0m
+[0;32m    digitalocean.manager: Removing python3-paramiko (2.12.0-2ubuntu4) ...[0m
+[0;32m    digitalocean.manager: Removing python3-nacl (1.5.0-4build1) ...[0m
 [0;32m    digitalocean.manager: Removing python3-winrm (0.4.3-2) ...[0m
 [0;32m    digitalocean.manager: Removing python3-requests-ntlm (1.1.0-3) ...[0m
 [0;32m    digitalocean.manager: Removing python3-ntlm-auth (1.5.0-1) ...[0m
 [0;32m    digitalocean.manager: Removing python3-packaging (24.0-1) ...[0m
-[0;32m    digitalocean.manager: Removing python3-passlib (1.7.4-4) ...[0m
 [0;32m    digitalocean.manager: Removing python3-resolvelib (1.0.1-1) ...[0m
-[0;32m    digitalocean.manager: Removing python3-selinux (3.5-2ubuntu2) ...[0m
-[0;32m    digitalocean.manager: Removing python3-simplejson (3.19.2-1build2) ...[0m
 [0;32m    digitalocean.manager: Removing python3-xmltodict (0.13.0-1) ...[0m
+[0;32m    digitalocean.manager: Removing sshpass (1.09-1) ...[0m
 [0;32m    digitalocean.manager: Processing triggers for man-db (2.12.0-4build2) ...[0m
 [1;31m==> digitalocean.manager: + apt-get -o DPkg::Lock::Timeout=900 update -y[0m
 [0;32m    digitalocean.manager: Hit:1 http://mirrors.digitalocean.com/ubuntu noble InRelease[0m
-[0;32m    digitalocean.manager: Hit:2 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease[0m
-[0;32m    digitalocean.manager: Hit:3 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease[0m
-[0;32m    digitalocean.manager: Hit:4 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease[0m
+[0;32m    digitalocean.manager: Hit:2 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease[0m
+[0;32m    digitalocean.manager: Hit:3 http://mirrors.digitalocean.com/ubuntu noble-updates InRelease[0m
+[0;32m    digitalocean.manager: Hit:4 http://mirrors.digitalocean.com/ubuntu noble-backports InRelease[0m
 [0;32m    digitalocean.manager: Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease[0m
 [0;32m    digitalocean.manager: Reading package lists...[0m
 [1;32m==> digitalocean.manager: Gracefully shutting down droplet...[0m
-[1;32m==> digitalocean.manager: Creating snapshot: packer-1730424304[0m
+[1;32m==> digitalocean.manager: Creating snapshot: packer-1730756027[0m
 [1;32m==> digitalocean.manager: Waiting for snapshot to complete...[0m
 [1;32m==> digitalocean.manager: Destroying droplet...[0m
 [1;32m==> digitalocean.manager: Deleting temporary ssh key...[0m
-[1;32mBuild 'digitalocean.manager' finished after 3 minutes 58 seconds.[0m
+[1;32mBuild 'digitalocean.manager' finished after 5 minutes 7 seconds.[0m
 
-==> Wait completed after 3 minutes 58 seconds
+==> Wait completed after 5 minutes 7 seconds
 
 ==> Builds finished. The artifacts of successful builds are:
---> digitalocean.manager: A snapshot was created: 'packer-1730424304' (ID: 169239454) in regions 'nyc1'
+--> digitalocean.manager: A snapshot was created: 'packer-1730756027' (ID: 169564230) in regions 'nyc1'

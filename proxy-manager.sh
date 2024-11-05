@@ -48,7 +48,7 @@ usage() {
     echo "   rebuild <proxy/manager> <index>    Rebuilds a specified node"
     echo "       - Optionally, you may replace index with 'all' to replace every node."
     echo "   build                              Builds the entire proxy manager, destructively."
-    echo "   redirect <ip/fqdn> <port> [ssl]    Redirects to a provided ip and port combination on all nodes."
+    echo "   redirect <ip/fqdn> <port,port,...> [ssl]    Redirects to a provided ip and port combination on all nodes."
     echo "       - SSL is an optional argument you pass in, leave it blank if you dont want SSL."
     echo "       - To clean redirected files, run 'proxy-manager redirect clean'"
 }
@@ -299,27 +299,36 @@ elif [ "$1" == "image" ]; then
     clear
 elif [ "$1" == "redirect" ]; then
     if [ "$2" == "clean" ]; then
+        print_status "Removing existing roles from the client." 2
         cd "${ANSIBLE_DIR}"
         rm -rf "roles/socat/templates/socat_instances"
         mkdir "roles/socat/templates/socat_instances"
+        print_status "Running ansible to disable socat and remove existing files." 2
+	    ansible-playbook disable_socat.yml -i inventory.yml
     else
-        # UUID generation
-        UUID=$(uuidgen)
-        cd "${ANSIBLE_DIR}"
+        IFS=',' read -r -a array <<< $3
 
-        # Create the socat file for the passed in argument
-        cd "roles/socat/templates"
-        cp "tmp.socat.service" "socat_instances/socat-${UUID}.service"
+        for element in "${array[@]}"
+        do
+            # UUID generation
+            UUID=$(uuidgen)
+            cd "${ANSIBLE_DIR}"
 
-        if [ "$4" == "ssl" ]; then
-            sed -i -e "s|<SOURCE_ADDRESS>|TCP4-LISTEN:${3},fork,reuseaddr|" "socat_instances/socat-${UUID}.service"
-            sed -i -e "s|<DESTINATION_ADDRESS>|ssl:${2}:${3},verify=0|" "socat_instances/socat-${UUID}.service"
-        else
-            sed -i -e "s|<SOURCE_ADDRESS>|TCP4-LISTEN:${3},fork,reuseaddr|" "socat_instances/socat-${UUID}.service"
-            sed -i -e "s|<DESTINATION_ADDRESS>|TCP4:${2}:${3}|" "socat_instances/socat-${UUID}.service"
-        fi
+            # Create the socat file for the passed in argument
+            cd "roles/socat/templates"
+            cp "tmp.socat.service" "socat_instances/socat-${UUID}.service"
+
+            if [ "$4" == "ssl" ]; then
+                sed -i -e "s|<SOURCE_ADDRESS>|TCP4-LISTEN:${element},fork,reuseaddr|" "socat_instances/socat-${UUID}.service"
+                sed -i -e "s|<DESTINATION_ADDRESS>|ssl:${2}:${element},verify=0|" "socat_instances/socat-${UUID}.service"
+            else
+                sed -i -e "s|<SOURCE_ADDRESS>|TCP4-LISTEN:${element},fork,reuseaddr|" "socat_instances/socat-${UUID}.service"
+                sed -i -e "s|<DESTINATION_ADDRESS>|TCP4:${2}:${element}|" "socat_instances/socat-${UUID}.service"
+            fi
+        done
         # Ansible to deploy socat
         cd "${ANSIBLE_DIR}"
+        print_status "Deploying redirector ansible" 2
         ansible-playbook -i inventory.yml -u root socat.yml
     fi
 elif [ "$1" == "build" ]; then
@@ -335,12 +344,20 @@ elif [ "$1" == "build" ]; then
                 * ) echo "Please answer yes or no.";;
             esac
         done
-        
+
         proxy-manager -v -C
         proxy-manager -v -b
         proxy-manager -v -p node
         proxy-manager -v -p manager
-        proxy-manager -v deploy  
+        proxy-manager -v deploy
+    fi
+elif [ $1 == "output" ]; then
+    if [ $2 == "ansible" ]; then
+        cd "${ANSIBLE_DIR}"
+        cat inventory.yml
+    elif [ $2 == "terraform" ]; then
+        cd "${TERRAFORM_DIR}"
+        terraform output
     fi
 elif [ ! -z $1 ] && [ ! -z $2 ]; then
     proxy-manager build
