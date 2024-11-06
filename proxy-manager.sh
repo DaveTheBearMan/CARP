@@ -35,22 +35,31 @@ packer_image=""
 usage() {
     echo "Usage: $0 [-v] [-o output_file] [-b] [-d] [-c] [-p target_json_file] [-h] argument"
     echo "Options:"
-    echo "  -v                                  Enable verbose mode"
-    echo "  -o FILE                             Specify output file"
-    echo "  -b                                  Rebuild Go package"
-    echo "  -d                                  Destroy terraform environment"
-    echo "  -c                                  Clean packer snapshots"
-    echo "  -C                                  Clean entire workspace including terraform environment"
-    echo "  -p FILE                             Run packer on a target JSON file"
-    echo "  -h                                  Display this help message"
+    echo "  -v                                          Enable verbose mode"
+    echo "  -o FILE                                     Specify output file"
+    echo "  -b                                          Rebuild Go package"
+    echo "  -d                                          Destroy terraform environment"
+    echo "  -c                                          Clean packer snapshots"
+    echo "  -C                                          Clean entire workspace including terraform environment"
+    echo "  -p FILE                                     Run packer on a target JSON file"
+    echo "  -h                                          Display this help message"
     echo "Arguments:"
-    echo "   deploy                             Deploys current terraform configuration"
-    echo "   rebuild <proxy/manager> <index>    Rebuilds a specified node"
+    echo "   deploy                                     Deploys current terraform configuration"
+    echo ""
+    echo "   rebuild <proxy/manager> <index>            Rebuilds a specified node"
     echo "       - Optionally, you may replace index with 'all' to replace every node."
-    echo "   build                              Builds the entire proxy manager, destructively."
+    echo ""
+    echo "   build                                      Builds the entire proxy manager, destructively."
+    echo ""
     echo "   redirect <ip/fqdn> <port,port,...> [ssl]    Redirects to a provided ip and port combination on all nodes."
     echo "       - SSL is an optional argument you pass in, leave it blank if you dont want SSL."
     echo "       - To clean redirected files, run 'proxy-manager redirect clean'"
+    echo ""
+    echo "   output <ansible/terraform>                 Outputs either the ansible inventory or terraform output"
+    echo ""
+    echo "   image <node>                               You can optionally include node, or leave blank. This reimages with new go binary."
+    echo ""
+    echo ""
 }
 
 # Parse options
@@ -290,7 +299,15 @@ elif [ "$1" == "rebuild" ]; then
             terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
         fi
     elif [ "$2" == "manager" ]; then
-        echo "Create manager"
+        print_status "Staging to remove manager-1" 2
+        sed -i s/"\"manager-1\" = { create = true }"/"\"manager-1\" = { create = false }"/ variables.tf
+        print_status "Running terraform to bring manager down" 2
+        terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+        print_status "Staging manager-1" 2
+        sed -i s/"\"manager-1\" = { create = false }"/"\"manager-1\" = { create = true }"/ variables.tf
+        print_status "Running terraform to bring manager up" 2
+        terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
+        terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
     elif [ "$2" == "all" ]; then
         for i in {1..7}
         do 
@@ -318,14 +335,21 @@ elif [ "$1" == "rebuild" ]; then
         print_status "Running terraform to bring nodes and manager up" 2
         terraform apply -auto-approve -var="node_droplet_image=$(cat ${SNAPSHOT_DIR}/node.txt | head -n 1)" -var="manager_droplet_image=$(cat ${SNAPSHOT_DIR}/manager.txt | head -n 1)"
         terraform output | sed -e 's/  "/      /g' -e 's/",/:/g' -e 's/]//g' -e 's/ = \[/:/' -e 's/[*]*/    &/' -e '1 s/[*]*/all:\n  children:\n/' -e 's/public_ips:/&\n      hosts:/' | grep "\S" > ../../ansible/inventory.yml
+        print_status "Waiting for nodes to come to life" 2
+        sleep 3
 
         print_status "Imaging new nodes and manager" 2
-        proxy-manager -b image
+        proxy-manager image
     fi
 elif [ "$1" == "image" ]; then
     # Handle imaging the nodes with current configs
+    proxy-manager -b
     cd "${ANSIBLE_DIR}"
-    ansible-playbook image.yml -i inventory.yml
+    if [ "$2" == "node" ]; then
+        ansible-playbook image_node.yml -i inventory.yml
+    else
+        ansible-playbook image.yml -i inventory.yml
+    fi
 elif [ "$1" == "redirect" ]; then
     if [ "$2" == "clean" ]; then
         print_status "Removing existing roles from the client." 2
@@ -380,14 +404,17 @@ elif [ "$1" == "build" ]; then
         proxy-manager -v -p manager
         proxy-manager -v deploy
     fi
-elif [ "$1" == "output" ]; then
+elif [ "$1" == "ls" ]; then
     if [ "$2" == "ansible" ]; then
         cd "${ANSIBLE_DIR}"
         cat inventory.yml
-    elif [ $2 == "terraform" ]; then
+    else
         cd "${TERRAFORM_DIR}"
         terraform output
     fi
+elif [ "$1" == "connect" ]; then
+    ip_address=$(proxy-manager ls | head -n 2 | awk '{print $1}' | tail -n 1 | sed -e 's/\"//g' -e 's/,//g')
+    ssh "root@${ip_address}"
 elif [ ! -z $1 ] && [ ! -z $2 ]; then
     proxy-manager build
     if [ -z "$3" ]; then

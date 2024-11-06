@@ -7,8 +7,8 @@
 
 - name: Make management binary available in home
   copy:
-    src: "{{ role_path }}/templates/manager"
-    dest: /usr/local/
+    src: "{{ role_path }}/templates/proxy-runner.sh"
+    dest: /usr/local/bin/proxy-runner.sh
     mode: '0755'
 
 - name: Clone manager systemd service
@@ -28,4 +28,4 @@
 - name: Ensure that manager systemd is running
   systemd:
     name: proxy-manager
-    state: started
+    state: restarted

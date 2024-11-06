@@ -53,13 +53,13 @@ build {
     source      = "keys/private_key.asc"
   }
 
-  provisioner "ansible-local" {
-    group_vars    = "../ansible/group_vars"
-    playbook_file = "../ansible/node.yml"
-    role_paths    = ["../ansible/roles/golang", "../ansible/roles/node"]
-  }
+#   provisioner "ansible-local" {
+#     group_vars    = "../ansible/group_vars"
+#     playbook_file = "../ansible/node.yml"
+#     role_paths    = ["../ansible/roles/node"]
+#   }
 
-  provisioner "shell" {
-    script = "scripts/cleanup.sh"
-  }
+#   provisioner "shell" {
+#     script = "scripts/cleanup.sh"
+#   }
 }

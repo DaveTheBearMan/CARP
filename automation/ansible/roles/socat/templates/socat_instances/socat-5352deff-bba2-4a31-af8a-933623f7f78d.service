@@ -1,0 +1,12 @@
+[Unit]
+Description=Socat Daemon Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/socat TCP4-LISTEN:all,fork,reuseaddr TCP4:reimage:all
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

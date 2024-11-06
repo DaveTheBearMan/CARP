@@ -1,0 +1,9 @@
+---
+- name: Update go binaries on nodes
+  hosts: node_public_ips
+  become: true
+  remote_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - node
