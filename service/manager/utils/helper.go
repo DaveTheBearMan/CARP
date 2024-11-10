@@ -13,12 +13,20 @@ import (
 
 // Takes in a map containing IP address indices and websocket connections, and returns all available IPs.
 func WriteKeysFromMap(prefix string) string {
+	// Create a new buffer, and also create a map for IP addresses which have been sorted to the top.
 	b := new(bytes.Buffer)
 	written := make(map[string]bool)
 
 	// Make matching wildcards red
+	// TODO: This needs refactoring for the really easy job of changing the array.
 	if client.TargetClient == "wildcard" {
 		for key := range client.WildcardArray {
+			written[key] = true
+			fmt.Fprintf(b, "%s[red]%s[-]\n", prefix, key)
+		}
+	}
+	if client.TargetClient == "alias" {
+		for key := range client.AliasArray {
 			written[key] = true
 			fmt.Fprintf(b, "%s[red]%s[-]\n", prefix, key)
 		}
@@ -39,9 +47,17 @@ func ParseForWildCard(m map[string]*websocket.Conn, wildcard string) map[string]
 
 	// Iterate over passed in IP addresses and attempt to match.
 	for ip, conn := range m {
+		// Match absolute addresses
+		if ip == wildcard {
+			matchingAddresses[ip] = conn
+			continue
+		}
+
+		// Start by saying matching is true, then attempt to match and if successful add in
 		matching := true
 		splitHostAddress := strings.Split(ip, ".")
 
+		// Check our wildcard address for matches or stars
 		for i := 0; i <= 3; i++ {
 			if splitWildcardAddress[i] != "*" && splitWildcardAddress[i] != splitHostAddress[i] {
 				matching = false

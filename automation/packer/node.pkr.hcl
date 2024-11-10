@@ -44,9 +44,9 @@ source "digitalocean" "node" {
 build {
   sources = ["source.digitalocean.node"]
 
-  provisioner "shell" {
-    script = "scripts/ansible.sh"
-  }
+#   provisioner "shell" {
+#     script = "scripts/ansible.sh"
+#   }
 
   provisioner "file" {
     destination = "/"

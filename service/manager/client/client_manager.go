@@ -10,6 +10,7 @@ var ClientUser = make(map[string]string)
 var TargetClient string
 var WildcardPattern string
 var WildcardArray map[string]*websocket.Conn
+var AliasArray map[string]*websocket.Conn
 
 // Add client
 func RegisterClient(ip_addr string, title string) {

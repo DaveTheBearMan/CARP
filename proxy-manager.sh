@@ -345,11 +345,7 @@ elif [ "$1" == "image" ]; then
     # Handle imaging the nodes with current configs
     proxy-manager -b
     cd "${ANSIBLE_DIR}"
-    if [ "$2" == "node" ]; then
-        ansible-playbook image_node.yml -i inventory.yml
-    else
-        ansible-playbook image.yml -i inventory.yml
-    fi
+    ansible-playbook connectNodes.yml -i inventory.yml
 elif [ "$1" == "redirect" ]; then
     if [ "$2" == "clean" ]; then
         print_status "Removing existing roles from the client." 2
@@ -403,6 +399,7 @@ elif [ "$1" == "build" ]; then
         proxy-manager -v -p node
         proxy-manager -v -p manager
         proxy-manager -v deploy
+        proxy-manager connect
     fi
 elif [ "$1" == "ls" ]; then
     if [ "$2" == "ansible" ]; then
@@ -414,9 +411,10 @@ elif [ "$1" == "ls" ]; then
     fi
 elif [ "$1" == "connect" ]; then
     ip_address=$(proxy-manager ls | head -n 2 | awk '{print $1}' | tail -n 1 | sed -e 's/\"//g' -e 's/,//g')
-    ssh "root@${ip_address}"
+    ssh "root@${ip_address}" -t "tmux a"  
 elif [ ! -z $1 ] && [ ! -z $2 ]; then
     proxy-manager build
+    proxy-manager image
     if [ -z "$3" ]; then
         proxy-manager redirect $1 $2
     else

@@ -35,9 +35,15 @@ func RunCommand(commandField *tview.InputField) {
 		return
 	}
 
-	if client.TargetClient == "all" || client.TargetClient == "wildcard" {
-		BulkRequest(command)
-	} else if client.TargetClient != "" {
+	// Determine whether we need a bulk request (all,wildcard,alias) or a singular request (unique ip)
+	switch client.TargetClient {
+	case "all":
+		BulkRequest(command, client.Clients)
+	case "wildcard":
+		BulkRequest(command, client.WildcardArray)
+	case "alias":
+		BulkRequest(command, client.AliasArray)
+	default:
 		commandField.SetText("")
 		PostCommand(client.TargetClient, command)
 	}
@@ -62,14 +68,14 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get private IP address
-	private_ip_addr, err := postCommandAndListenInternal(connection, incoming_ip_addr, "CARP-ip")
+	private_ip_addr, err := postCommandAndListenInternalSilenced(connection, incoming_ip_addr, "CARP-ip")
 	if err != nil {
-		ui.QueueMessageToBeWritten(ui.ErrorLog, "Error extracting private IP: %s", err)
+		ui.QueueMessageToBeWritten(ui.ErrorLog, "Error extracting private IP from CARP-ip: %s", err)
 		return
 	}
 
 	// Hostname
-	hostname, err := postCommandAndListenInternal(connection, incoming_ip_addr, "CARP-hostname")
+	hostname, err := postCommandAndListenInternalSilenced(connection, incoming_ip_addr, "CARP-hostname")
 	if err != nil {
 		ui.QueueMessageToBeWritten(ui.ErrorLog, "Error extracting hostname from CARP-hostname: %s", err)
 		return
@@ -103,10 +109,10 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Send command to all clients or a specified target.
-		if client.TargetClient == "all" || client.TargetClient == "wildcard" {
+		if client.TargetClient == "all" || client.TargetClient == "wildcard" || client.TargetClient == "alias" {
 			// Flatten responses to one line for each client, and include their IP address.
 			message = []byte(strings.Replace(string(message), "\n", " ", -1))
-			ui.QueueMessageToBeWritten(ui.OutputLog, "[yellow]%s[-]\t%s %s\n", private_ip_addr, client.ClientUser[private_ip_addr], message)
+			ui.QueueMessageToBeWritten(ui.OutputLog, "[yellow]%-*s[-]%s %s\n", 18, private_ip_addr, client.ClientUser[private_ip_addr], message)
 			// ui.QueueMessageToBeWritten(ui.OutputLog, "%s ", client.ClientUser[private_ip_addr])
 			// ui.QueueMessageToBeWritten(ui.OutputLog, "%s\n", message)
 		} else {
@@ -149,6 +155,34 @@ func PostCommandAndListen(ip_addr string, command string) (string, error) {
 	return postCommandAndListenInternal(clientConn, ip_addr, command)
 }
 
+// TODO: Refactor into one command
+func postCommandAndListenInternalSilenced(clientConn *websocket.Conn, ip_addr string, command string) (string, error) {
+	// Take in a command and ip address, and try across the client array for connecting by IP.
+	trimmedCommand := strings.TrimSpace(command)
+
+	// Post command
+	// This will send the command across the web socket, and catch any errors that are sent back in response.
+	// Theres no need to print the full response here, as the websocket will do that automatically in the main
+	// loop.
+	if err := clientConn.WriteMessage(websocket.TextMessage, []byte(trimmedCommand)); err != nil {
+		ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client: %s\n", err)
+		clientConn.Close()
+		client.RemoveClientConnection(ip_addr)
+		client.RemoveClientUserConnect(ip_addr)
+		return "", fmt.Errorf("write error for client: %s", err)
+	}
+
+	// Listen for a response
+	_, response, err := clientConn.ReadMessage()
+	if err != nil {
+		ui.QueueMessageToBeWritten(ui.ErrorLog, "Read error for client: %s\n", err)
+		return "", fmt.Errorf("read error for client %s: %v", ip_addr, err)
+	}
+
+	// Return the response as a string
+	return string(response), nil
+}
+
 func postCommandAndListenInternal(clientConn *websocket.Conn, ip_addr string, command string) (string, error) {
 	// Take in a command and ip address, and try across the client array for connecting by IP.
 	trimmedCommand := strings.TrimSpace(command)
@@ -181,29 +215,16 @@ func postCommandAndListenInternal(clientConn *websocket.Conn, ip_addr string, co
 }
 
 // Send a comand to all attached clients
-func BulkRequest(command string) {
-	// Trim our command down, then iterate over every client and send the command to them with a custom response wrapper.
-	if client.TargetClient == "all" {
-		fullCommand := strings.TrimSpace(command)
-		ui.QueueMessageToBeWritten(ui.OutputLog, "[green]Command sent to clients [-][[blue]all[-]]: %s\n", fullCommand)
-		for ip_addr, clientConn := range client.Clients {
-			if err := clientConn.WriteMessage(websocket.TextMessage, []byte(fullCommand)); err != nil {
-				ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client [%s]: %s", ip_addr, err)
-				clientConn.Close()
-				client.RemoveClientConnection(ip_addr)
-				client.RemoveClientUserConnect(ip_addr)
-			}
-		}
-	} else if client.TargetClient == "wildcard" {
-		fullCommand := strings.TrimSpace(command)
-		ui.QueueMessageToBeWritten(ui.OutputLog, "[green]Command sent to clients [-][[blue] %s [-]]: %s\n", client.WildcardPattern, fullCommand)
-		for ip_addr, clientConn := range client.WildcardArray {
-			if err := clientConn.WriteMessage(websocket.TextMessage, []byte(fullCommand)); err != nil {
-				ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client [%s]: %s", ip_addr, err)
-				clientConn.Close()
-				client.RemoveClientConnection(ip_addr)
-				client.RemoveClientUserConnect(ip_addr)
-			}
+func BulkRequest(command string, clientList map[string]*websocket.Conn) {
+	fullCommand := strings.TrimSpace(command)
+	ui.QueueMessageToBeWritten(ui.OutputLog, "[green]Command sent to clients [-][[blue]%s[-]]: %s\n", client.TargetClient, fullCommand)
+
+	for ip_addr, clientConn := range clientList {
+		if err := clientConn.WriteMessage(websocket.TextMessage, []byte(fullCommand)); err != nil {
+			ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client [%s]: %s", ip_addr, err)
+			clientConn.Close()
+			client.RemoveClientConnection(ip_addr)
+			client.RemoveClientUserConnect(ip_addr)
 		}
 	}
 }
