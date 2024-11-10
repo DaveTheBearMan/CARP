@@ -1,92 +1,49 @@
 package main
 
-// Utilizing gorilla mux for routers for the REST Api
 import (
-	"encoding/json"
-	"http_proxy/types"
-	"http_proxy/utils"
+	"http_proxy/manager/cmd"
+	"http_proxy/manager/ui"
+	"log"
 	"net/http"
 
-	"github.com/google/uuid"
-	"github.com/gorilla/mux"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
-// Global Manager
-var manager = types.Manager{
-	Nodes:   make(map[uuid.UUID]types.Node),
-	Clients: make(map[string]types.Client),
-}
-
-// Home page for the REST API
-func landingPage(writer http.ResponseWriter, request *http.Request) {
-	// Guarantee header and write current manager
-	writer.Header().Set("Content-Type", "application/json")
-
-	// Encode and write, catch the error
-	err := json.NewEncoder(writer).Encode(manager)
-	if err != nil {
-		http.Error(writer, "Error encoding JSON", http.StatusInternalServerError)
-	}
-
-	// Print for success or error
-	utils.WrapErrorCheck(request, err, "Accessed landing page")
-}
-
-// Register node
-func registerNode(writer http.ResponseWriter, request *http.Request) {
-	// Create a new node instance
-	var node types.Node
-
-	// Catch and return any errors over HTTP
-	err := json.NewDecoder(request.Body).Decode(&node)
-	utils.WrapErrorCheck(request, err, "Successfully registered new node")
-	if err != nil {
-		http.Error(writer, "Invalid input data", http.StatusBadRequest)
-		return
-	}
-
-	// Update the manager
-	node.UUID = uuid.New()
-	manager.Nodes[node.UUID] = node
-
-	// Write back the newly registered node
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusCreated)
-	json.NewEncoder(writer).Encode(node)
-}
-
-// Register client
-func registerClient(writer http.ResponseWriter, request *http.Request) {
-	// Create a new node instance
-	var client types.Client
-
-	// Catch and return any errors over HTTP
-	err := json.NewDecoder(request.Body).Decode(&client)
-	utils.WrapErrorCheck(request, err, "Successfully registered new client")
-	if err != nil {
-		http.Error(writer, "Invalid input data", http.StatusBadRequest)
-		return
-	}
-
-	// Update the manager
-	manager.Clients[client.Address.Ipv4] = client
-
-	// Write back the newly registered node
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusCreated)
-	json.NewEncoder(writer).Encode(client)
-}
-
+// Main function
 func main() {
-	router := mux.NewRouter()
+	// Log that the application is starting
+	log.Println("Starting application...")
 
-	// Api access routes
-	router.HandleFunc("/", landingPage).Methods("GET")
-	router.HandleFunc("/register-node", registerNode).Methods("POST")
-	router.HandleFunc("/register-client", registerClient).Methods("POST")
+	// Start the HTTP server for WebSocket connections
+	http.HandleFunc("/ws", cmd.HandleWebSocket)
+	ui.App = tview.NewApplication()
+	ui.SetupUI()
+	log.Println("UI setup complete.")
 
-	// Open server
-	localIP := utils.GetOutboundIP().String()
-	utils.LogMessage(localIP, "Beginning listening on port 8080 . . .")
-	http.ListenAndServe(":8080", router)
+	// Start the HTTP server in a goroutine
+	go func() {
+		log.Println("Starting HTTP server on :8080...")
+		if err := http.ListenAndServe(":8080", nil); err != nil {
+			log.Fatal("ListenAndServe error:", err)
+		}
+	}()
+
+	// Configure the CommandField to run commands
+	if ui.CommandField != nil {
+		ui.CommandField.SetDoneFunc(func(key tcell.Key) {
+			if key == tcell.KeyEnter {
+				cmd.RunCommand(ui.CommandField)
+				log.Println("Command executed:", ui.CommandField.GetText())
+			}
+		})
+	} else {
+		log.Fatal("CommandField is not initialized")
+	}
+
+	// Start the TUI application
+	log.Println("Starting TUI application...")
+	if err := ui.App.SetRoot(ui.Flex, true).EnableMouse(true).Run(); err != nil {
+		panic(err)
+	}
 }

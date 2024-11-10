@@ -1,0 +1,31 @@
+---
+- name: Stop and disable socat services on nodes
+  hosts: node_public_ips
+  become: yes
+  remote_user: root
+  tasks:
+    - name: Stop and disable all socat services
+      shell: |
+        for service in $(systemctl list-units --type=service --all | grep 'socat-' | awk '{print $1}'); do
+          systemctl stop "$service"
+          systemctl disable "$service"
+        done
+        rm -f /etc/systemd/system/socat-*.service
+        rm -f /usr/lib/systemd/system/socat-*.service
+      args:
+        _uses_shell: true
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Mask socat services
+      shell: |
+        for service in $(systemctl list-units --type=service --all | grep 'socat-' | awk '{print $2}'); do
+          systemctl mask "$service"
+        done
+      args:
+        _uses_shell: true
+
+    - name: Reset failed state for services
+      command: systemctl reset-failed
+
