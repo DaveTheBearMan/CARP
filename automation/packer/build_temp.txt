@@ -4,53 +4,23 @@
 [1;32m==> digitalocean.manager: Importing SSH public key...[0m
 [1;32m==> digitalocean.manager: Creating droplet...[0m
 [1;32m==> digitalocean.manager: Waiting for droplet to become active...[0m
-[1;32m==> digitalocean.manager: Using SSH communicator to connect: 178.128.155.103[0m
+[1;32m==> digitalocean.manager: Using SSH communicator to connect: 167.172.154.90[0m
 [1;32m==> digitalocean.manager: Waiting for SSH to become available...[0m
 [1;32m==> digitalocean.manager: Connected to SSH![0m
 [1;32m==> digitalocean.manager: Uploading keys/private_key.asc => /[0m
-[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [==================================================================================================] 100.00%
-[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [==================================================================================================] 100.00%
-[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [==================================================================================================] 100.00%
-[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [==================================================================================================] 100.00%
-[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [===============================================================================================] 100.00% 0s
-[1;32m==> digitalocean.manager: Provisioning with Ansible...[0m
-[0;32m    digitalocean.manager: Setting up proxy adapter for Ansible....[0m
-[1;32m==> digitalocean.manager: Executing Ansible: ansible-playbook -e packer_build_name="manager" -e packer_builder_type=digitalocean --ssh-extra-args '-o IdentitiesOnly=yes' -e ansible_ssh_private_key_file=/tmp/ansible-key126115557 -i /tmp/packer-provisioner-ansible3196776837 /home/dtbm/github/CloudFlareway/automation/ansible/image.yml[0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: PLAY [Update go binary on manager] *********************************************[0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [Gathering Facts] *********************************************************[0m
-[0;32m    digitalocean.manager: ok: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [manager : Clone manager binary] ******************************************[0m
-[0;32m    digitalocean.manager: changed: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [manager : Make management binary available in home] **********************[0m
-[0;32m    digitalocean.manager: changed: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [manager : Clone manager systemd service] *********************************[0m
-[0;32m    digitalocean.manager: changed: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [manager : Restart systemd] ***********************************************[0m
-[0;32m    digitalocean.manager: ok: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [manager : Enable manager systemd service] ********************************[0m
-[0;32m    digitalocean.manager: changed: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: TASK [manager : Ensure that manager systemd is running] ************************[0m
-[0;32m    digitalocean.manager: changed: [default][0m
-[0;32m    digitalocean.manager:[0m
-[0;32m    digitalocean.manager: PLAY RECAP *********************************************************************[0m
-[0;32m    digitalocean.manager: default                    : ok=7    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0[0m
-[0;32m    digitalocean.manager:[0m
+[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [====================================================================================] 100.00%
+[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [====================================================================================] 100.00%
+[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [====================================================================================] 100.00%
+[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [====================================================================================] 100.00%
+[1A[0;32m    digitalocean.manager: private_key.asc[0m 751 B / 751 B [=================================================================================] 100.00% 0s
 [1;32m==> digitalocean.manager: Gracefully shutting down droplet...[0m
-[1;32m==> digitalocean.manager: Creating snapshot: packer-1731209452[0m
+[1;32m==> digitalocean.manager: Creating snapshot: packer-1732254264[0m
 [1;32m==> digitalocean.manager: Waiting for snapshot to complete...[0m
 [1;32m==> digitalocean.manager: Destroying droplet...[0m
 [1;32m==> digitalocean.manager: Deleting temporary ssh key...[0m
-[1;32mBuild 'digitalocean.manager' finished after 1 minute 58 seconds.[0m
+[1;32mBuild 'digitalocean.manager' finished after 1 minute 19 seconds.[0m
 
-==> Wait completed after 1 minute 58 seconds
+==> Wait completed after 1 minute 19 seconds
 
 ==> Builds finished. The artifacts of successful builds are:
---> digitalocean.manager: A snapshot was created: 'packer-1731209452' (ID: 169997649) in regions 'nyc1'
+--> digitalocean.manager: A snapshot was created: 'packer-1732254264' (ID: 171041212) in regions 'nyc1'

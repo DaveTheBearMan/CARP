@@ -1,0 +1,38 @@
+Usage: /usr/bin/proxy-manager [-v] [-o output_file] [-b] [-d] [-c] [-p target_json_file] [-h] argument
+Options:
+  -v                                          Enable verbose mode
+  -o FILE                                     Specify output file [Not yet working]
+  -b                                          Rebuild Go package
+  -d                                          Destroy terraform environment
+  -c                                          Clean packer snapshots
+  -C                                          Clean entire workspace including terraform environment
+  -p FILE                                     Run packer on a target packer file
+  -h                                          Display this help message
+Arguments:
+	deploy 
+		- No arguments, runs the terraform configuration with the snapshot id, and outputs to ansible inventory
+	rebuild 
+		- proxy <#/all>
+			- Rebuilds a specified node, or, all nodes.
+		- all
+			- Rebuilds the manager and then every single node.
+	image
+		- Runs connectNodes ansible to connect all nodes to the current manager instance
+		- Only works with a running manager, otherwise, the nodes will be lost.
+		- This is used primarily for testing, or if you want access to the nodes from the TUI 
+	redirect
+		- clean
+		- <IP_ADDRESS> <PORT,PORT,...> [SSL] 
+			- Runs socat to redirect every nodes incoming traffic on the specified ports to the ports on the given IP. 
+			- Optionally has argument for SSL (left blank if not needed), that uses SSL provider in Socat
+	build
+		- in-place <LOOP: T/F>
+			- Gradually rebuilds nodes and reimages them to connect to manager
+			- If loop is enabled, it will simply continue to do so.
+		- Rebuilds proxy manager service and connects you to the TUI
+			- Same as running: proxy_manager -v -C, -v -b, -v -p node, -v -p manager, -v deploy, connect
+	ls
+		- ansible
+			- Outputs ansible inventory
+		- default
+			- Outputs terraform inventory

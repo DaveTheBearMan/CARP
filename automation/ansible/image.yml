@@ -1,9 +1,0 @@
----
-- name: Update go binary on manager
-  hosts: default
-  become: true
-  remote_user: root
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-  roles:
-    - manager

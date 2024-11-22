@@ -44,22 +44,8 @@ source "digitalocean" "node" {
 build {
   sources = ["source.digitalocean.node"]
 
-#   provisioner "shell" {
-#     script = "scripts/ansible.sh"
-#   }
-
   provisioner "file" {
     destination = "/"
     source      = "keys/private_key.asc"
   }
-
-#   provisioner "ansible-local" {
-#     group_vars    = "../ansible/group_vars"
-#     playbook_file = "../ansible/node.yml"
-#     role_paths    = ["../ansible/roles/node"]
-#   }
-
-#   provisioner "shell" {
-#     script = "scripts/cleanup.sh"
-#   }
 }

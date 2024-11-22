@@ -1,0 +1,33 @@
+---
+- name: Clone node binary
+  copy:
+    src: "{{ role_path }}/templates/node"
+    dest: /usr/local/bin/proxynode
+    mode: '0755'
+
+- name: Clone node systemd service
+  copy:
+    src: "{{ role_path }}/templates/node-manager.service"
+    dest: /etc/systemd/system/node-manager.service
+
+- name: Update node systemd service to run with ip address and port.
+  lineinfile:
+    path: /etc/systemd/system/node-manager.service
+    regexp: '^ExecStart='
+    line: 'ExecStart=/usr/local/bin/proxynode {{ manager_ip }} {{ port }}'
+  vars:
+    port: 8080
+
+- name: Restart systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable node systemd service
+  systemd:
+    name: node-manager
+    enabled: yes
+
+- name: Ensure that node systemd is running
+  systemd:
+    name: node-manager
+    state: started

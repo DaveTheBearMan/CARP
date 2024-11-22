@@ -1,0 +1,9 @@
+---
+- name: Install Node Service on Nodes
+  hosts: localhost
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - node
+

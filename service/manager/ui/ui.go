@@ -198,3 +198,20 @@ func SetupUI() {
 			AddItem(ConnectionLog, 0, 1, false).
 			AddItem(ErrorLog, 0, 1, false).SetDirection(tview.FlexRow), 0, 2, false)
 }
+
+func QueueClientRemoval(ip_addr string) {
+	_, ok := client.ClientUser[ip_addr]
+
+	if ok {
+		// Add user to be removed
+		QueueMessageToBeWritten(ConnectionLog, "[[red]-[-]] [yellow]%s\n[-]", ip_addr)
+
+		// Remove connections
+		client.RemoveClientConnection(ip_addr)
+		client.RemoveClientUserConnect(ip_addr)
+
+		// Clear and update active clients
+		ActiveClients.Clear()
+		QueueMessageToBeWritten(ActiveClients, "%s", utils.WriteKeysFromMap(""))
+	}
+}

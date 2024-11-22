@@ -44,26 +44,8 @@ source "digitalocean" "manager" {
 build {
   sources = ["source.digitalocean.manager"]
 
-#   provisioner "shell" {
-#     script = "scripts/ansible.sh"
-#   }
-
   provisioner "file" {
     destination = "/"
     source      = "keys/private_key.asc"
   }
-
-#   provisioner "ansible-local" {
-#     group_vars    = "../ansible/group_vars"
-#     playbook_file = "../ansible/manager.yml"
-#     role_paths    = ["../ansible/roles/manager"]
-#   }
-
-  provisioner "ansible" {
-    playbook_file   = "../ansible/image.yml"
-  }
-
-#   provisioner "shell" {
-#     script = "scripts/cleanup.sh"
-#   }
 }

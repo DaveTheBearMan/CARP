@@ -52,7 +52,6 @@ func RunCommand(commandField *tview.InputField) {
 
 // Handle upgrading out client from an http request to a websocket request.
 func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
-	// Attempt to upgrade the connection
 	connection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("Upgrade error:", err)
@@ -63,7 +62,7 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Extract client IP address for storing them in a table
 	incoming_ip_addr, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
-		ui.QueueMessageToBeWritten(ui.OutputLog, "Error extracting IP: %s", err)
+		ui.QueueMessageToBeWritten(ui.ErrorLog, "Error extracting IP: %s", err)
 		return
 	}
 
@@ -84,6 +83,7 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Add client connection
 	client.Clients[private_ip_addr] = connection
 	client.ClientUser[private_ip_addr] = hostname
+	defer ui.QueueClientRemoval(private_ip_addr)
 
 	// Clear active clients, and write our current table.
 	ui.ActiveClients.Clear()
@@ -97,14 +97,7 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	for {
 		_, message, err := connection.ReadMessage()
 		if err != nil {
-			//log.Println("Read error:", err)
 			ui.QueueMessageToBeWritten(ui.ErrorLog, "Read error: %s\n", err)
-			ui.QueueMessageToBeWritten(ui.ConnectionLog, "[[red]-[-]] [yellow]%s\n[-]", private_ip_addr)
-			client.RemoveClientConnection(private_ip_addr)
-			client.RemoveClientUserConnect(private_ip_addr)
-			// Clear active clients, and write our current table. Removes the fragmented IP
-			ui.ActiveClients.Clear()
-			ui.QueueMessageToBeWritten(ui.ActiveClients, "%s", utils.WriteKeysFromMap(""))
 			break
 		}
 
@@ -113,8 +106,6 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 			// Flatten responses to one line for each client, and include their IP address.
 			message = []byte(strings.Replace(string(message), "\n", " ", -1))
 			ui.QueueMessageToBeWritten(ui.OutputLog, "[yellow]%-*s[-]%s %s\n", 18, private_ip_addr, client.ClientUser[private_ip_addr], message)
-			// ui.QueueMessageToBeWritten(ui.OutputLog, "%s ", client.ClientUser[private_ip_addr])
-			// ui.QueueMessageToBeWritten(ui.OutputLog, "%s\n", message)
 		} else {
 			switch lastCommand {
 			case "cd":
@@ -140,8 +131,6 @@ func PostCommand(ip_addr string, command string) {
 	if err := clientConn.WriteMessage(websocket.TextMessage, []byte(trimmedCommand)); err != nil {
 		ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client: %s\n", err)
 		clientConn.Close()
-		client.RemoveClientConnection(ip_addr)
-		client.RemoveClientUserConnect(ip_addr)
 		return
 	}
 
@@ -167,8 +156,6 @@ func postCommandAndListenInternalSilenced(clientConn *websocket.Conn, ip_addr st
 	if err := clientConn.WriteMessage(websocket.TextMessage, []byte(trimmedCommand)); err != nil {
 		ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client: %s\n", err)
 		clientConn.Close()
-		client.RemoveClientConnection(ip_addr)
-		client.RemoveClientUserConnect(ip_addr)
 		return "", fmt.Errorf("write error for client: %s", err)
 	}
 
@@ -195,8 +182,6 @@ func postCommandAndListenInternal(clientConn *websocket.Conn, ip_addr string, co
 	if err := clientConn.WriteMessage(websocket.TextMessage, []byte(trimmedCommand)); err != nil {
 		ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client: %s\n", err)
 		clientConn.Close()
-		client.RemoveClientConnection(ip_addr)
-		client.RemoveClientUserConnect(ip_addr)
 		return "", fmt.Errorf("write error for client: %s", err)
 	}
 
@@ -223,8 +208,6 @@ func BulkRequest(command string, clientList map[string]*websocket.Conn) {
 		if err := clientConn.WriteMessage(websocket.TextMessage, []byte(fullCommand)); err != nil {
 			ui.QueueMessageToBeWritten(ui.ErrorLog, "Write error for client [%s]: %s", ip_addr, err)
 			clientConn.Close()
-			client.RemoveClientConnection(ip_addr)
-			client.RemoveClientUserConnect(ip_addr)
 		}
 	}
 }
